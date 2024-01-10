@@ -1,0 +1,40 @@
+﻿<MudDialog IsVisible="false">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@Advantage.Name</MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudStack>
+                <MudText>@Advantage.Description</MudText>
+                <MudStack Row="true">
+                    <MudText Typo="Typo.caption">@Advantage.Requirements</MudText>
+                    <MudText Typo="Typo.caption" Align="Align.End"><b>Cost: @Advantage.Cost</b></MudText>
+            </MudStack>
+        </MudStack>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="Instance.Cancel">Close</MudButton>
+        <MudButton Color="Color.Error" OnClick="Remove">Remove</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [Parameter]
+    public Advantage Advantage { get; set; } = null!;
+
+    [Parameter]
+
+    [CascadingParameter]
+    public MudDialogInstance Instance { get; set; } = null!;
+
+    [Inject]
+    IDialogService DialogService { get; set; } = null!;
+
+    async Task Remove()
+    {
+        var ensureResult = await DialogService.ShowMessageBox("Are you sure you want to remove this advantage?", "This action can't be undone", "Remove", "Cancel");
+        if (ensureResult != true)
+            return;
+        Instance.Close(Advantage);
+    }
+}

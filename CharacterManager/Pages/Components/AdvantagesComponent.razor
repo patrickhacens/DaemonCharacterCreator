@@ -30,11 +30,18 @@ else
                     </MudItem>
                 <MudItem xs="1">
                     <MudText>@item.Cost</MudText>
-                </MudItem>
+                    </MudItem>
                 <MudItem xs="1">
-                    <MudIconButton Size="Size.Small" Color="Color.Primary" Icon="@Icons.Material.Filled.Visibility" />
+                    <MudIconButton Size="Size.Small" Color="Color.Primary" Icon="@Icons.Material.Filled.Visibility" OnClick="() => Open(item)" />
                 </MudItem>
             }
+
+            <MudItem xs="10">
+                <MudText><b>Total</b></MudText>
+            </MudItem>
+            <MudItem xs="1">
+                <MudText>@Player.UsedAdvantagePoints / @Player.MaxAdvantagePoints</MudText>
+            </MudItem>
         </MudGrid>
     </MudPaper>
 }
@@ -60,5 +67,16 @@ else
         var result = await diag.Result;
         if (!result.Canceled && result.Data is Advantage advantage)
             Player.Advantages.Add(advantage);
+    }
+
+    async Task Open(Advantage item)
+    {
+        var diag = DialogService.Show<AdvantageDialog>(null, new DialogParameters
+        {
+            { nameof(AdvantageDialog.Advantage), item },
+        });
+        var result = await diag.Result;
+        if (!result.Canceled && result.Data is Advantage adv)
+            Player.Advantages.Remove(item);
     }
 }

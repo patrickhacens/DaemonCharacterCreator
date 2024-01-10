@@ -69,7 +69,7 @@
                 var stream = file.OpenReadStream();
 
                 var player = await JsonSerializer.DeserializeAsync<Player>(stream, jOptions);
-                players.Add(player);
+                players.Add(player!);
             }
 
             for (int i = 0; i < players.Count; i++)

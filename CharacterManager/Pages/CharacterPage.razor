@@ -14,12 +14,15 @@
         <MudIconButton Icon="@Icons.Material.Filled.Save"
                        OnClick="Save" />
     </MudTooltip>
+
     <MudTooltip Text="Import character from file">
+
         <MudFileUpload T="IBrowserFile" FilesChanged="Import"  Accept=".json" Class="ma-0">
             <ButtonTemplate>
                 <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.CloudUpload" for="@context.Id" />
             </ButtonTemplate>
         </MudFileUpload>
+
     </MudTooltip>
     <MudTooltip Text="Export character to file">
 
@@ -76,7 +79,7 @@
 
     async Task Delete()
     {
-        var ensureResult = await diagService.ShowMessageBox($"Delete character '{player.Name}'", "Are you sure? this action cannot be undone", "Delete", "Cancel");
+        var ensureResult = await diagService.ShowMessageBox($"Delete character '{player?.Name}'", "Are you sure? this action cannot be undone", "Delete", "Cancel");
         if (ensureResult != true)
             return;
 
