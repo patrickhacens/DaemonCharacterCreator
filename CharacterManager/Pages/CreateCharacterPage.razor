@@ -1,0 +1,99 @@
+﻿@page "/new"
+@using System.Text.Json
+
+@inject NavigationManager Nav
+@inject Db db
+@inject ILogger<CreateCharacterPage> logger
+@inject JsonSerializerOptions jOptions
+
+<PageTitle>New Character</PageTitle>
+
+<MudForm @ref="form">
+    <MudTextField Label="Name"
+                  @bind-Value="Name"
+                  Required="true" />
+</MudForm>
+<MudToolBar DisableGutters="true">
+
+    <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary">Add new Character</MudButton>
+
+    <MudSpacer />
+    <MudFileUpload T="IReadOnlyList<IBrowserFile>" FilesChanged="Import" Accept=".json" Class="ma-0">
+        <ButtonTemplate>
+            <MudButton HtmlTag="label"
+                       Variant="Variant.Filled"
+                       Color="Color.Secondary"
+                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                       for="@context.Id">
+                Import
+            </MudButton>
+        </ButtonTemplate>
+    </MudFileUpload>
+</MudToolBar>
+
+@code {
+    public string Name { get; set; } = null!;
+
+    MudForm form = null!;
+    async Task Save()
+    {
+        await form.Validate();
+        if (!form.IsValid)
+            return;
+
+        var player = new Player()
+            {
+                Name = Name
+            };
+
+        var result = await db.AddItems<Player>(new List<Player>()
+        {
+            player
+        });
+        db.SendCharacterListChanged();
+        logger.LogInformation(result);
+
+        Nav.NavigateTo($"/characters/{Name}");
+    }
+
+    bool importing = false;
+    async Task Import(IReadOnlyList<IBrowserFile> files)
+    {
+        List<Player> players = new();
+        importing = true;
+        try
+        {
+
+            foreach (var file in files)
+            {
+                var stream = file.OpenReadStream();
+
+                var player = await JsonSerializer.DeserializeAsync<Player>(stream, jOptions);
+                players.Add(player);
+            }
+
+            for (int i = 0; i < players.Count; i++)
+            {
+                var player = players[i];
+            }
+
+            foreach (var player in players)
+            {
+                var existingPlayer = await db.GetByKey<string, Player>(player.Name);
+                if (existingPlayer is not null || players.Any(d => d != player && d.Name == player.Name))
+                    player.Name = player.Name + "_" + Guid.NewGuid().ToString();
+            }
+
+            var result = await db.AddItems(players);
+            db.SendCharacterListChanged();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Problem during import");
+        }
+        finally
+        {
+            importing = false;
+        }
+    }
+}

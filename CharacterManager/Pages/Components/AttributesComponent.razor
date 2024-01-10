@@ -1,0 +1,47 @@
+﻿@if (Player is null)
+{
+    <MudSkeleton SkeletonType="SkeletonType.Text" Height="200px" />
+}
+else
+{
+    <MudPaper Class="pa-2">
+        <MudText Typo="Typo.h6">Attributes</MudText>
+        <MudGrid Spacing="0" Justify="Justify.Center" Class="align-center">
+            <MudItem xs="3" />
+            <MudItem xs="3">
+                <MudText>Base</MudText>
+            </MudItem>
+            <MudItem xs="3">
+                <MudText>Mod</MudText>
+            </MudItem>
+            <MudItem xs="3">
+                <MudText>%</MudText>
+            </MudItem>
+            @foreach (var attr in Player.Attributes.OrderBy(d => d.Type))
+            {
+                <MudItem xs="3">
+                    <MudText>@attr.Type.ToString()[..3].ToUpper()</MudText>
+                    </MudItem>
+
+                <MudItem xs="3">
+                    <InputNumber class="input" @bind-Value="attr.BaseValue" />
+                </MudItem>
+
+                <MudItem xs="3">
+                    <MudText>@attr.BaseModifier</MudText>
+                    </MudItem>
+                <MudItem xs="3">
+                    <MudText>@attr.Percent</MudText>
+                    </MudItem>
+
+            }
+        </MudGrid>
+        <MudText Typo="Typo.overline">@Player.TotalAttributePoints used points</MudText>
+    </MudPaper>
+
+}
+
+@code {
+    [Parameter]
+    public Player Player { get; set; }
+}

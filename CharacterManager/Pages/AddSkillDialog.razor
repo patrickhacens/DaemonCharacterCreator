@@ -1,0 +1,118 @@
+﻿<MudDialog>
+    <TitleContent>
+        <MudStack Row AlignItems="AlignItems.Center">
+
+             <MudText Typo="Typo.h6">Add Skill</MudText>
+             <MudSpacer />
+             <MudSwitch Label="custom" @bind-Value="custom" />
+         </MudStack>
+     </TitleContent>
+     <DialogContent>
+         @if (custom)
+        {
+            <MudTextField Label="Skill name" @bind-Value="customSkill.Name" />
+
+            <MudTextField Label="Skill description" Lines="3" @bind-Value="customSkill.Description" />
+
+            <MudSelect T="AttributeType?" @bind-Value="customSkill.Attribute" Label="Based attribute">
+                <MudSelectItem T="AttributeType?" Value="null">None</MudSelectItem>
+
+                @foreach (var attr in Enum.GetValues<AttributeType>())
+                {
+                    <MudSelectItem T="AttributeType?" Value="attr">@attr.ToString()</MudSelectItem>
+                }
+            </MudSelect>
+        }
+        else
+        {
+            <div style="max-height:60vh;overflow:scroll">
+
+                <MudList Clickable="true" SelectedValueChanged="e => selectedSkill = e as Skill" Style="max-height:60vh">
+                    <MudListSubheader>
+
+                        <MudTextField Label="Filter"
+                                      @bind-Value="filter"
+                                      OnDebounceIntervalElapsed="FilterSkills"
+                                      DebounceInterval="200" />
+                    </MudListSubheader>
+
+                    <MudListItem>
+                        @foreach (var skill in SkillsFiltered)
+                        {
+                            <MudListItem Value="skill">
+                                <MudStack Row AlignItems="AlignItems.Center">
+
+                                     <MudText>@skill.Name</MudText>
+                                        @if (skill.Attribute.HasValue)
+                                    {
+                                        <MudChip Size="Size.Small" Color="Color.Primary">@skill.Attribute.Value.ToString()[..3].ToUpper()</MudChip>
+
+                                    }
+                                    @if (!String.IsNullOrWhiteSpace(skill.Description))
+                                    {
+                                        <MudTooltip Style="max-width:200px">
+                                            <ChildContent>
+
+                                                <MudChip Size="Size.Small" Color="Color.Secondary"><MudIcon Size="Size.Small" Icon="@Icons.Material.Filled.QuestionMark" /></MudChip>
+                                            </ChildContent>
+                                            <TooltipContent>
+                                                <MudText>@skill.Description</MudText>
+                                            </TooltipContent>
+                                        </MudTooltip>
+                                    }
+                                </MudStack>
+                            </MudListItem>
+                        }
+                    </MudListItem>
+                </MudList>
+            </div>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Select" Disabled="((!custom && selectedSkill is null) || (custom && String.IsNullOrWhiteSpace(customSkill.Name)))">Add</MudButton>
+        <MudButton OnClick="Instance.Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    IEnumerable<Skill> SkillsFiltered = Enumerable.Empty<Skill>();
+
+    Skill? selectedSkill;
+    string? filter;
+
+    Skill customSkill = new(String.Empty);
+
+    bool custom;
+
+    [Parameter]
+    public IEnumerable<Skill> DataSource { get; set; } = Enumerable.Empty<Skill>();
+
+    [Parameter]
+    public IEnumerable<string> CurrentSkillSet { get; set; } = Enumerable.Empty<string>();
+
+    [CascadingParameter]
+    public MudDialogInstance Instance { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        FilterSkills();
+    }
+
+
+    void FilterSkills()
+    {
+        SkillsFiltered = DataSource.Where(d => !CurrentSkillSet.Contains(d.Name));
+        if (!String.IsNullOrWhiteSpace(filter))
+            SkillsFiltered = SkillsFiltered.Where(d => d.Name.Contains(filter) || d.Attribute?.ToString().ToLower() == filter.ToLower());
+    }
+
+    void Select()
+    {
+        if (!custom && selectedSkill is not null)
+            Instance.Close(selectedSkill);
+        else if (custom && !String.IsNullOrWhiteSpace(customSkill.Name))
+            Instance.Close(customSkill);
+        else
+            Instance.Cancel();
+    }
+}

@@ -1,0 +1,64 @@
+﻿@if (Player == null)
+{
+    <MudSkeleton Height="200px" SkeletonType="SkeletonType.Rectangle" Animation="Animation.Pulse" />
+}
+else
+{
+    <MudPaper Class="pa-2">
+        <MudGrid Spacing="0">
+            <MudItem xs="12">
+                <MudStack Row="true" AlignItems="AlignItems.Center">
+                    <MudText Typo="Typo.h6">Advantages / Disadvantages</MudText>
+                    <MudSpacer />
+                    <MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Add" OnClick="async () => await Add()" />
+                </MudStack>
+            </MudItem>
+
+            <MudItem xs="10">
+                <MudText><b>Name</b></MudText>
+            </MudItem>
+            <MudItem xs="1">
+                <MudText><b>Cost</b></MudText>
+            </MudItem>
+            <MudItem xs="1">
+            </MudItem>
+
+            @foreach (var item in Player.Advantages)
+            {
+                <MudItem xs="10">
+                    <MudText>@item.Name</MudText>
+                    </MudItem>
+                <MudItem xs="1">
+                    <MudText>@item.Cost</MudText>
+                </MudItem>
+                <MudItem xs="1">
+                    <MudIconButton Size="Size.Small" Color="Color.Primary" Icon="@Icons.Material.Filled.Visibility" />
+                </MudItem>
+            }
+        </MudGrid>
+    </MudPaper>
+}
+
+@code {
+    [Parameter]
+    public Player Player { get; set; } = null!;
+
+    [Inject]
+    public IDialogService DialogService { get; set; } = null!;
+
+    void Delete(Advantage advantage)
+    {
+        Player.Advantages.Remove(advantage);
+    }
+
+    async Task Add()
+    {
+        var diag = DialogService.Show<AddAdvantagesDialog>(null, new DialogParameters
+        {
+
+        });
+        var result = await diag.Result;
+        if (!result.Canceled && result.Data is Advantage advantage)
+            Player.Advantages.Add(advantage);
+    }
+}

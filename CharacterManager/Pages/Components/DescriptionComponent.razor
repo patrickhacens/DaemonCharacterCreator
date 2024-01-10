@@ -1,0 +1,84 @@
+﻿@if (Player is null)
+{
+    <MudSkeleton Height="200px" SkeletonType="SkeletonType.Text" />
+}
+else
+{
+
+    <MudGrid Spacing="0">
+        <MudItem xs="12">
+
+            <MudTextField Label="Name"
+                          Required="true"
+                          @bind-Value="Player.Name" />
+        </MudItem>
+
+        <MudItem xs="12">
+            <MudTextField Label="Profession"
+                          @bind-Value="Player.Profession" />
+        </MudItem>
+
+        <MudItem xs="5" md="2">
+            <MudDatePicker Label="Birth Date"
+                           Date="Player.Description.Birthday.ToDateTime(TimeOnly.MinValue)"
+                           Editable="true"
+                           DateChanged="e => Player.Description.Birthday = e.HasValue ? DateOnly.FromDateTime(e.Value) : Player.Description.Birthday" />
+        </MudItem>
+
+        <MudItem xs="7" md="4">
+            <MudTextField Label="Birth place"
+                          @bind-Value="Player.Description.BirthPlace" />
+        </MudItem>
+
+        <MudItem xs="12" md="4">
+            <MudSelect Label="Gender"
+                       @bind-Value="Player.Description.Gender">
+                @foreach (var gender in Enum.GetValues<Gender>())
+                {
+                    <MudSelectItem Value="gender">@gender</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+
+        <MudItem xs="6" sm="3" md="2">
+            <MudNumericField T="decimal"
+                             Label="Height"
+                             @bind-Value="Player.Description.Height"
+                             Step="0.01m" />
+        </MudItem>
+
+        <MudItem xs="6" sm="3" md="2">
+            <MudNumericField T="decimal"
+                             Label="Weight"
+                             @bind-Value="Player.Description.Weight"
+                             Step="0.01m" />
+        </MudItem>
+
+        <MudItem xs="6" sm="3" md="2">
+            <MudNumericField T="int"
+                             Label="Real Age"
+                             @bind-Value="Player.Description.RealAge"
+                             Step="1" />
+        </MudItem>
+
+        <MudItem xs="6" sm="3" md="2">
+            <MudNumericField T="int"
+                             Label="Apparent Age"
+                             @bind-Value="Player.Description.ApparentAge"
+                             Step="1" />
+        </MudItem>
+
+        <MudItem xs="12" md="6">
+            <MudTextField Label="Religion"
+                          @bind-Value="Player.Description.Religion" />
+        </MudItem>
+
+
+    </MudGrid>
+}
+
+@code {
+    [Parameter]
+    public Player Player { get; set; }
+
+}

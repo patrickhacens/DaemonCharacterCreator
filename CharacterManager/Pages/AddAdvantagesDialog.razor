@@ -1,0 +1,90 @@
+﻿@using Daemon.Data
+<MudDialog>
+    <TitleContent>
+        <MudStack Row="true" AlignItems="AlignItems.Center">
+            <MudText Typo="Typo.h6">Add Advantage / Disadvantage</MudText>
+            <MudSpacer />
+            <MudSwitch Label="custom" @bind-Value="custom" />
+        </MudStack>
+    </TitleContent>
+
+    <DialogContent>
+        <MudTextField Label="Filter"
+                      @bind-Value="filter"
+                      OnDebounceIntervalElapsed="FilterAdvantages"
+                      DebounceInterval="200" />
+
+        <MudSelect T="bool?" Label="Positive or negative" @bind-Value="filterPositiveNegative">
+            <MudSelectItem T="bool?" Value="null">Todos</MudSelectItem>
+            <MudSelectItem T="bool?" Value="true">Apenas positivos</MudSelectItem>
+            <MudSelectItem T="bool?" Value="false">Apenas negativos</MudSelectItem>
+        </MudSelect>
+        <div style="max-height:60vh;overflow:scroll">
+            @foreach (var item in Filtered)
+            {
+
+                <MudGrid>
+                    <MudCard Outlined="true">
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">@item.Name</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudText>@item.Description</MudText>
+                                @if (!String.IsNullOrWhiteSpace(item.Requirements))
+                            {
+                                <MudText Typo="Typo.overline"><b>@item.Requirements</b></MudText>
+                            }
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton OnClick="() => Select(item)" StartIcon="@Icons.Material.Filled.Add">Add</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudGrid>
+            }
+        </div>
+    </DialogContent>
+
+    @*   <DialogActions>
+    <MudButton Color="Color.Primary" OnClick="Select">Add</MudButton>
+    <MudButton OnClick="Instance.Cancel">Cancel</MudButton>
+    </DialogActions> *@
+</MudDialog>
+
+@code {
+    bool custom;
+
+    [CascadingParameter]
+    public MudDialogInstance Instance { get; set; } = null!;
+
+    [Parameter]
+    public IEnumerable<Advantage> DataSource { get; set; } = DaemonDb.Advantages.AsReadOnly();
+
+    IEnumerable<Advantage> Filtered = Enumerable.Empty<Advantage>();
+
+    string? filter;
+
+    bool? filterPositiveNegative;
+
+    protected override void OnInitialized()
+    {
+        FilterAdvantages();
+    }
+
+    void FilterAdvantages()
+    {
+        Filtered = DataSource.AsEnumerable();
+        if (!String.IsNullOrWhiteSpace(filter))
+            Filtered = Filtered.Where(d => d.Name.Contains(filter));
+
+        if (filterPositiveNegative == true)
+            Filtered = Filtered.Where(d => d.Cost >= 0);
+        else if (filterPositiveNegative == false)
+            Filtered = Filtered.Where(d => d.Cost < 0);
+    }
+    void Select(Advantage advantage)
+    {
+        Instance.Close(advantage);
+    }
+}

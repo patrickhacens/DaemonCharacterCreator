@@ -1,0 +1,159 @@
+﻿#### ANIMAIS ####
+Treinamento de animais
+Montaria; Agility
+Doma
+Veterinária
+
+Armadilhas; Perception; Domine as técnicas de construção de armadilhas, entenda o seu funcionamento e saiba encontrar as pisras que possam levá-lo a elas. 
+
+#### ARTES ####
+Arquiterura
+Atuação (teatro de sombras e kabuki); Carisma
+Caligrafia; Dexterity
+Canto; Carisma
+Cerimônia do Chá; Inteligence
+Culinária; Perception
+Dança; Agility;
+Desenho e Pintura; Dexterity
+Escapismo; Agility;
+Escultura; Dexterity
+Ilusionismo; Dexterity
+Música; Dexterity 
+Tradições Orais; Carisma
+Ópera; Inteligence
+Origarni; Dexterity
+Tangram; Dexterity
+Bonsai; Inteligence
+
+Artes Marciais;Dexterity
+Artifice; Dexterity; Você tem os conhecimentos necessários para a criação de objetos, desenvolvimento de projetas mecânicos, de cantaria e alvenaria, além da construção de novos inventos. Alguns subgrupos possíveis: Arte Mecânica, oficial, operário, obreiro, inventor.
+Astrologia; Null; Ciência milenar, desenvolvida em Lieh. O personagem pode traçar o perfil de uma pessoa e descobrir o futuro próximo dela através do estudo de mapas astrais, posições das constelações e planetas e datas relativas ao nascimento. É uma ane quase que exclusiva dos astrólogos.
+Camuflagem; Perception; Com um pouco do material correto para determinado local, você se mantém invisibilizadn, mantos negros em noites sem luas, folhagens em ambientes silvestres são apenas alguns de mwtos exemplos que poderiam ser citados.
+Cartografia; Inteligence; Você sabe analisar e ler um mapa, também domina as técnicas para a sua compqsição, consegue se localizar com a simples leitura de poucos dados grafados.
+
+###Ciencias###
+Agricultura; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Aoatornia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Arqueologia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Astronomia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Botânica; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Direito ou Jurisprudência; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Diplomacia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Filosofia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Geografia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Geologia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Herbalismo; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+História; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Literatura; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Matemática; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Meteorologia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Religião; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+Zoologia; Inteligence; Você tem conhecimentos diferenciados em relação aos outros, normalmente tem uma posição de destaque em sua comunidade.
+
+###Ciências Proibidas###
+Alquimia; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Teoria do Tao; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Conhecimentos sobre os Planos; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Demônios; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Ocultismo; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Psionicismo; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Rituais; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Teoria da Magia; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Vampiros; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Viagem ; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Astral; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+Dragões; Null; Você domina certos conhecimentos obscuros, pode participar de alguma seita secreta, qualquer demonstração desses conhecimentos pode ocasionar uma reação de repulsão ou algo pior pelos habitantes comuns.
+
+Condução: Liteira; Agility; Saiba como conduzir e fazer pequenos reparos nos veículos. 
+Condução: Carroça; Agility; Saiba como conduzir e fazer pequenos reparos nos veículos. 
+Disfarce; Inteligence; Você consegue se passar por outro tipo de pessoa, se esconder em multidões com facilidade, passar desapercebido entre as fileiras de um exército inimigo. Disfarce
+
+###Engenharia###
+Engenharia: Civil; Null; Você domina os cnnhecimentos para construir e reparar máquinas mais complexas, conhece materiais, sabe operar com facilidade qualquer maquinário e engenhoca.
+Engenharia: Demolições; Null; Você domina os cnnhecimentos para construir e reparar máquinas mais complexas, conhece materiais, sabe operar com facilidade qualquer maquinário e engenhoca.
+Engenharia: Mecânica; Null; Você domina os cnnhecimentos para construir e reparar máquinas mais complexas, conhece materiais, sabe operar com facilidade qualquer maquinário e engenhoca.
+Engenharia: Naval; Null; Você domina os cnnhecimentos para construir e reparar máquinas mais complexas, conhece materiais, sabe operar com facilidade qualquer maquinário e engenhoca.
+Engenharia: Militar; Null; Você domina os cnnhecimentos para construir e reparar máquinas mais complexas, conhece materiais, sabe operar com facilidade qualquer maquinário e engenhoca.
+
+Escalar; Agility; Poucos têm a capacidade de sub±r tão facilmente em qualquer superfície como você, suba em árvores rapidamente, entre por janelas no alto de grandes muros, torne muralhas um empecilho pequeno, saiba portar escadas e cordas com ganchos.
+Escutar; Perception; Ouça o que se passa atrás de paredes, do outro lado de portas, abaixo do telhado em que se encontra, próximo à matas ameaçadoras e evite surpresas desagradáveis.
+Esquiva; Agility; Você tem uma habilidade maior para desviar de golpes, armas arremessadas ou qualquer outro acidente natural ou não.
+
+###Esportes###
+Acrobacia; Agility;
+Arremesso; Dexterity;
+Caça; Perception;
+Canoagem; Constitution;
+Corrida; Constitution;
+Mergulho; Constitution;
+Pesca; Perception;
+Natação; Agility;
+Salto; Agility;
+
+Etiqueta; Carisma; Indica a sua boa educação frente a situações cerimoniosas, como festas, reuniões, jantares e no trato pessoal em qualquer situação.
+
+###Falsificação###
+Falsificar Documentos; Inteligence; Você conhece as técnicas necessárias para copiar e alteração de acordo com seus objetivos determinados objetos.
+Falsificar Escultura; Inteligence; Você conhece as técnicas necessárias para copiar e alteração de acordo com seus objetivos determinados objetos.
+Falsificar Joalheria; Inteligence; Você conhece as técnicas necessárias para copiar e alteração de acordo com seus objetivos determinados objetos.
+Falsificar Pinturas; Inteligence; Você conhece as técnicas necessárias para copiar e alteração de acordo com seus objetivos determinados objetos.
+Falsificar Pergaminhos; Inteligence; Você conhece as técnicas necessárias para copiar e alteração de acordo com seus objetivos determinados objetos.
+
+Furtar; Dexterity; Você domina as artes necessárias no furto, do pequeno pungista ao assaltante de casas a quartéis militares.
+Furgitivadade; Agility; Torna mais fácil esgueirar-se pelas sombras, seguir sem ser notado, fugir em silêncio. 
+Idioma; Null; Indica seus conhecimentos em outras linguas, idiomas ou dialetos e sua capacidade em aprende-los.
+Ler e Escrever; Null; Você consegue decifrar os ideogramas de velhos papiros que estejam escritos em uma lingua que você domine, conforme mais alto seu conhecimento mais fácil será analisar inscrições que você não domine comparando com outras conhecidas e semelhantes, você também tem a faculdade de poder deixar registrado o que melhor lhe aprouver.
+
+###Manipulação###
+Empatia; Carisma; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Hipnose; Null; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Impressionar; Carisma; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Interrogatório; Inteligence; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Intimidação; Will; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Lábia; Carisma; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Liderança; Carisma; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Manha; Carisma; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Sedução; Carisma; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Tortura; Inteligence; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+Meditação; Inteligence; Você consegue retirar as informações da maioria das pessoas consegue fazê-los mudar de idéia, recebe qualquer tipo de ajuda com mais facilidade, de uma forma mais pacífica ou não, dependendo do subgrupo. 
+
+Manuseio de Fechaduras; Null; Você conhece o funcionamento mecânico de fechaduras e outros equipamentos como ferrolhos, sabe como travar portas com maior segurança, e claro, como arrombá-las rapidamente e em silêncio.
+
+###Medicina###
+Cirurgia; Dexterity; Personagens com habilidades médicas são muito valiosos em ambientes como o de Lieh, desde as sociedades mais primitivas como os Tokage até os grandes reinos, sempre haverá alguém disposto a mostrar suas aptidões em troca de alguma coisa
+Amputação; Dexterity; Personagens com habilidades médicas são muito valiosos em ambientes como o de Lieh, desde as sociedades mais primitivas como os Tokage até os grandes reinos, sempre haverá alguém disposto a mostrar suas aptidões em troca de alguma coisa
+Primeiros Socorros; Inteligence; Personagens com habilidades médicas são muito valiosos em ambientes como o de Lieh, desde as sociedades mais primitivas como os Tokage até os grandes reinos, sempre haverá alguém disposto a mostrar suas aptidões em troca de alguma coisa
+Acupuntura; Inteligence; Personagens com habilidades médicas são muito valiosos em ambientes como o de Lieh, desde as sociedades mais primitivas como os Tokage até os grandes reinos, sempre haverá alguém disposto a mostrar suas aptidões em troca de alguma coisa
+Reiki; Inteligence; Personagens com habilidades médicas são muito valiosos em ambientes como o de Lieh, desde as sociedades mais primitivas como os Tokage até os grandes reinos, sempre haverá alguém disposto a mostrar suas aptidões em troca de alguma coisa
+Aromaterapia; Inteligence; Personagens com habilidades médicas são muito valiosos em ambientes como o de Lieh, desde as sociedades mais primitivas como os Tokage até os grandes reinos, sempre haverá alguém disposto a mostrar suas aptidões em troca de alguma coisa
+Pontos de Pressão; Null; Personagens com habilidades médicas são muito valiosos em ambientes como o de Lieh, desde as sociedades mais primitivas como os Tokage até os grandes reinos, sempre haverá alguém disposto a mostrar suas aptidões em troca de alguma coisa
+
+###Mineração###
+Cristais; Null; Você conhece os nomes, materiais e as formas de materiais que se escondem no seio da terra e nos leitos de rios, assim como a forma de extraí-los e trabalhá-los, além de seu preço no mercado.
+Gemas; Null; Você conhece os nomes, materiais e as formas de materiais que se escondem no seio da terra e nos leitos de rios, assim como a forma de extraí-los e trabalhá-los, além de seu preço no mercado.
+Metais; Null; Você conhece os nomes, materiais e as formas de materiais que se escondem no seio da terra e nos leitos de rios, assim como a forma de extraí-los e trabalhá-los, além de seu preço no mercado.
+
+###Negociação###
+Barganha; Carisma; As técnicas necessárias para o trato socie!, indicadas caso você seja um feirante, lojista, mascate, diplomata e qualquer outra espécie de profissão afim.
+Burocracia; Inteligence; As técnicas necessárias para o trato socie!, indicadas caso você seja um feirante, lojista, mascate, diplomata e qualquer outra espécie de profissão afim.
+Contabilidade; Inteligence; As técnicas necessárias para o trato socie!, indicadas caso você seja um feirante, lojista, mascate, diplomata e qualquer outra espécie de profissão afim.
+Marketing; Inteligence; As técnicas necessárias para o trato socie!, indicadas caso você seja um feirante, lojista, mascate, diplomata e qualquer outra espécie de profissão afim.
+Comércio; Carisma; As técnicas necessárias para o trato socie!, indicadas caso você seja um feirante, lojista, mascate, diplomata e qualquer outra espécie de profissão afim.
+
+Investigação; Perception; Você tem conhecimenro de onde encontrar as informações que lhe são necessárias, tem acesso às bibliotecas e sabe exatamente onde procurar aquele tomo secreto, sabe em que locais pode encontrar as pessoas e os seus contatos que podem lhe por a par do que precisa.
+
+###Pilotagem###
+Navegação; Null;Você sabe como explorar as melhores condições para um melhor aproveitamento de seu veículo, conhece as rotas de vento, domina a leitura de mapas e equipamentos primitivos de navegação.
+Pilotagem Chauntong; Null;Você sabe como explorar as melhores condições para um melhor aproveitamento de seu veículo, conhece as rotas de vento, domina a leitura de mapas e equipamentos primitivos de navegação.
+Canoagem; Null;Você sabe como explorar as melhores condições para um melhor aproveitamento de seu veículo, conhece as rotas de vento, domina a leitura de mapas e equipamentos primitivos de navegação.
+
+Rastreio; Perception; 
+
+###Sobrevivencia###
+Sobrevivência: Localização; Perception; Aumenta sua capacidade de manter-se vivo em terrenos inóspitos e perigosos.
+Sobrevivência: Deserto; Perception; Aumenta sua capacidade de manter-se vivo em terrenos inóspitos e perigosos.
+Sobrevivência: Floresta; Perception; Aumenta sua capacidade de manter-se vivo em terrenos inóspitos e perigosos.
+Sobrevivência: Gelo; Perception; Aumenta sua capacidade de manter-se vivo em terrenos inóspitos e perigosos.
+Sobrevivência: Montanha; Perception; Aumenta sua capacidade de manter-se vivo em terrenos inóspitos e perigosos.
+Sobrevivência: Planicie; Perception; Aumenta sua capacidade de manter-se vivo em terrenos inóspitos e perigosos.
+Sobrevivência: Selva; Perception; Aumenta sua capacidade de manter-se vivo em terrenos inóspitos e perigosos.

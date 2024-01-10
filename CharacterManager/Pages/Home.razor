@@ -1,0 +1,38 @@
+﻿@page "/"
+
+@inject ILogger<Home> logger
+@inject Db db;
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // db.ActionCompleted += DbActionCompleted;
+
+        // await db.OpenIndexedDb();
+
+        // var player = new Player()
+        //     {
+        //         Name = "x2"
+        //     };
+        // player.Modifiers.Add(new Modifier<AttributeType>()
+        //     {
+        //         ModificationTarget = AttributeType.Dexterity,
+        //         Value = 1
+        //     });
+
+
+        // var result = await db.AddItems<Player>(new List<Player>()
+        // {
+        //    player
+        // });
+        // logger.LogInformation(result);
+
+    }
+}

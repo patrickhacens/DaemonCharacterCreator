@@ -1,0 +1,21 @@
+﻿@if (Player is null)
+{
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="200px" />
+}
+else
+{
+    <MudGrid Spacing="0">
+
+        @foreach (var status in Player.Status)
+        {
+            <MudItem xs="4">
+                <StatusItemComponent Status="status" />
+            </MudItem>
+        }
+    </MudGrid>
+}
+
+@code {
+    [Parameter]
+    public Player Player { get; set; }
+}

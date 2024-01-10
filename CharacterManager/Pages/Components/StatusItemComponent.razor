@@ -1,0 +1,12 @@
+﻿<MudPaper Class="pa-1 ma-1">
+    <MudNumericField @bind-Value="Status.Value"
+                     Label="@Status.Type.ToString()"
+                     Adornment="Adornment.End"
+                     FullWidth="false"
+                     Variant="Variant.Text" />
+</MudPaper>
+
+@code {
+    [Parameter]
+    public Status Status { get; set; }
+}
