@@ -1,66 +1,83 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.LocalStorage
+@inherits LayoutComponentBase
 @inject ILogger<MainLayout> logger
 @inject Db db
 @inject ISnackbar snackbar
+@inject Blazored.LocalStorage.ILocalStorageService localStore
 
-
-<MudThemeProvider />
+<MudThemeProvider @bind-IsDarkMode="DarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="ToggleDrawer" />
-        <MudText Typo="Typo.h4" Class="ml-3">Daemon CE</MudText>
-    </MudAppBar>
-    <MudDrawer @bind-Open="drawerOpen" ClipMode="DrawerClipMode.Always">
-        <MudNavMenu>
-            <MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.PersonAdd">Create character</MudNavLink>
-            
-            <MudNavGroup Title="Characters" Expanded Icon="@Icons.Material.Filled.Group">
-                 @if (!players.Any())
-                {
-                    <MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">It's empty here, create a new one</MudNavLink>
-                }
-                @foreach (var player in players)
-                {
-                    <MudNavLink Href="@($"/characters/{player.Name}")" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">@player.Name</MudNavLink>
+	<MudAppBar Elevation="1">
+		<MudIconButton Icon="@Icons.Material.Filled.Menu" Edge="Edge.Start" OnClick="ToggleDrawer" />
+		<MudText Typo="Typo.h4" Class="ml-3">Daemon CE</MudText>
+		<MudSpacer />
+		<MudToggleIconButton @bind-Toggled="DarkMode" Icon="@Icons.Material.Filled.DarkMode" ToggledIcon="@Icons.Material.Filled.LightMode" />
+	</MudAppBar>
+	<MudDrawer @bind-Open="drawerOpen" ClipMode="DrawerClipMode.Always">
+		<MudNavMenu>
+			<MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.PersonAdd">Create character</MudNavLink>
 
-                }
-            </MudNavGroup>
-        </MudNavMenu>
-    </MudDrawer>
-    <MudMainContent Class="mt-4">
-        <MudContainer MaxWidth="MaxWidth.Medium">
-            @Body
-        </MudContainer>
-    </MudMainContent>
+			<MudNavGroup Title="Characters" Expanded Icon="@Icons.Material.Filled.Group">
+					@if (!players.Any())
+				{
+					<MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">It's empty here, create a new one</MudNavLink>
+				}
+				@foreach (var player in players)
+				{
+					<MudNavLink Href="@($"/characters/{player.Name}")" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">@player.Name</MudNavLink>
+
+				}
+			</MudNavGroup>
+		</MudNavMenu>
+	</MudDrawer>
+	<MudMainContent Class="mt-4">
+		<MudContainer MaxWidth="MaxWidth.Medium">
+			@Body
+		</MudContainer>
+	</MudMainContent>
 </MudLayout>
 
 @code {
-    bool drawerOpen = true;
+	bool drawerOpen = true;
+	bool _darkMode = true;
+	bool DarkMode
+	{
+		get => _darkMode;
+		set
+		{
+			_darkMode = value;
+			SaveDarkMode();
+		}
+	}
 
-    void ToggleDrawer()
-    {
-        drawerOpen = !drawerOpen;
-    }
-    IEnumerable<Player> players = Enumerable.Empty<Player>();
+	void ToggleDrawer()
+	{
+		drawerOpen = !drawerOpen;
+	}
+	IEnumerable<Player> players = Enumerable.Empty<Player>();
 
-    protected override Task OnInitializedAsync()
-    {
-        db.CharacterListChanged += RefreshEvent;
-        return Refresh();
+	protected override async Task OnInitializedAsync()
+	{
+		_darkMode = await localStore.GetItemAsync<bool>("darkMode");
+		db.CharacterListChanged += RefreshEvent;
 
-    }
-    async void RefreshEvent(object? sender, EventArgs e)
-    {
-        await Refresh();
-    }
+		await Refresh();
 
-    async Task Refresh()
-    {
-        players = await db.GetAll<Player>() ?? Enumerable.Empty<Player>();
-        await InvokeAsync(StateHasChanged);
+	}
+	async void RefreshEvent(object? sender, EventArgs e)
+	{
+		await Refresh();
+	}
 
-    }
+	ValueTask SaveDarkMode() => localStore.SetItemAsync<bool>("darkMode", DarkMode);
+
+	async Task Refresh()
+	{
+		players = await db.GetAll<Player>() ?? Enumerable.Empty<Player>();
+		await InvokeAsync(StateHasChanged);
+
+	}
 }

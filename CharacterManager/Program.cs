@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using CharacterManager;
 using Daemon.Converters;
 using Daemon.Models;
@@ -22,25 +23,27 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddSingleton(ConfigureJOptions(new JsonSerializerOptions()));
 
+builder.Services.AddBlazoredLocalStorageAsSingleton();
+
 builder.Services
-    .AddIndexedDbDatabase<Db>(options => options
-    .UseDatabase(new IndexedDbDatabaseModel
-    {
-        Name = "Daemon Character Manager",
-        Version = 1,
-        Stores = {
-            new IndexedDbStore
-            {
-                Name = nameof(Player),
-                Key = new IndexedDbStoreParameter
-                {
-                    AutoIncrement = false,
-                    KeyPath = nameof(Player.Name)
-                },
-                Indexes = new List<IndexedDbIndex>()
-            }
-        }
-    }));
+	.AddIndexedDbDatabase<Db>(options => options
+	.UseDatabase(new IndexedDbDatabaseModel
+	{
+		Name = "Daemon Character Manager",
+		Version = 1,
+		Stores = {
+			new IndexedDbStore
+			{
+				Name = nameof(Player),
+				Key = new IndexedDbStoreParameter
+				{
+					AutoIncrement = false,
+					KeyPath = nameof(Player.Name)
+				},
+				Indexes = new List<IndexedDbIndex>()
+			}
+		}
+	}));
 
 
 
@@ -56,27 +59,27 @@ await app.RunAsync();
 
 void UpdateJSRuntimeJserialize(IServiceProvider services)
 {
-    try
-    {
-        var jsRuntime = services.GetService<IJSRuntime>();
-        var prop = typeof(JSRuntime).GetProperty("JsonSerializerOptions", BindingFlags.NonPublic | BindingFlags.Instance);
-        JsonSerializerOptions options = (JsonSerializerOptions)Convert.ChangeType(prop.GetValue(jsRuntime, null), typeof(JsonSerializerOptions))!;
-        ConfigureJOptions(options);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"SOME ERROR: {ex}");
-    }
+	try
+	{
+		var jsRuntime = services.GetService<IJSRuntime>();
+		var prop = typeof(JSRuntime).GetProperty("JsonSerializerOptions", BindingFlags.NonPublic | BindingFlags.Instance);
+		JsonSerializerOptions options = (JsonSerializerOptions)Convert.ChangeType(prop.GetValue(jsRuntime, null), typeof(JsonSerializerOptions))!;
+		ConfigureJOptions(options);
+	}
+	catch (Exception ex)
+	{
+		Console.WriteLine($"SOME ERROR: {ex}");
+	}
 }
 
 JsonSerializerOptions ConfigureJOptions(JsonSerializerOptions jOptions)
 {
-    jOptions.Converters.Add(new PlayerConverter());
-    jOptions.Converters.Add(new ModifierConverter());
-    jOptions.Converters.Add(new SkillConverter());
-    jOptions.Converters.Add(new AttributeConverter());
-    jOptions.Converters.Add(new JsonStringEnumConverter());
-    jOptions.IgnoreReadOnlyProperties = true;
-    jOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    return jOptions;
+	jOptions.Converters.Add(new PlayerConverter());
+	jOptions.Converters.Add(new ModifierConverter());
+	jOptions.Converters.Add(new SkillConverter());
+	jOptions.Converters.Add(new AttributeConverter());
+	jOptions.Converters.Add(new JsonStringEnumConverter());
+	jOptions.IgnoreReadOnlyProperties = true;
+	jOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+	return jOptions;
 }

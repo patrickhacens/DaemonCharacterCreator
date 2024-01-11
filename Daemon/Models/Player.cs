@@ -46,15 +46,17 @@ public class Player
 
     public string Profession { get; set; } = null!;
 
-    public int Level { get; set; }
+    public int Level => this[StatusType.Level].Value;
 
     public int TotalAttributePoints => Attributes.Sum(d => d.BaseValue);
+
+    public int MaxAttributePoints => 100 + Level;
 
     public int MaxSkillPoints => Level * 25 + this[AttributeType.Inteligence].BaseValue * 5 + Description.RealAge * 10;
 
     public int UsedSkillPoints => Skills.Sum(d => d.TotalInvested);
 
-    public int MaxAdvantagePoints { get; set; }
+    public int MaxAdvantagePoints => 5 + (int)Math.Ceiling((Level-1)/3d);
 
     public int UsedAdvantagePoints => Advantages.Sum(d => d.Cost);
 
