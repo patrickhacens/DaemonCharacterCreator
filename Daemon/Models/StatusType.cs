@@ -10,5 +10,6 @@ public enum StatusType
     MaxHP,
     Focus,
     Inspiration,
-    Faith
+    Faith,
+    Initiative
 }
