@@ -5,6 +5,7 @@
 @inject Db db
 @inject ILogger<CreateCharacterPage> logger
 @inject JsonSerializerOptions jOptions
+@inject IJSRuntime jsRuntime
 
 <PageTitle>New Character</PageTitle>
 
@@ -46,12 +47,21 @@
                 Name = Name
             };
 
+        var playerStr = JsonSerializer.Serialize(player, jOptions);
+
+        var prop = typeof(JSRuntime).GetProperty("JsonSerializerOptions", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        JsonSerializerOptions options = (JsonSerializerOptions)Convert.ChangeType(prop!.GetValue(jsRuntime, null), typeof(JsonSerializerOptions))!;
+
+        var playerStr2= JsonSerializer.Serialize(player, options);
+
         var result = await db.AddItems<Player>(new List<Player>()
         {
             player
         });
+
+
+
         db.SendCharacterListChanged();
-        logger.LogInformation(result);
 
         Nav.NavigateTo($"/characters/{Name}");
     }

@@ -23,6 +23,8 @@ public class Weapon : Item
 
 	public string Damage { get; set; } = null!;
 
+    public string TwoHandedDamage { get; set; }
+
     public AttributeType? BonusAttribute { get; set; }
 
     public string? Skill { get; set; }

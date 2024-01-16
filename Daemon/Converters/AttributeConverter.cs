@@ -28,7 +28,7 @@ public class AttributeConverter : JsonConverter<PlayerAttribute>
                     else if (reader.TokenType == JsonTokenType.Number)
                         result.Type = (AttributeType)reader.GetInt32();
                     else
-                        throw new JsonException($"Unpexcted token '{reader.TokenType}' for property {propertyName}");
+                        throw new JsonException($"Unexpected token '{reader.TokenType}' for property {propertyName}");
                     break;
 
                 case nameof(result.BaseValue):
@@ -47,6 +47,7 @@ public class AttributeConverter : JsonConverter<PlayerAttribute>
 
     public override void Write(Utf8JsonWriter writer, PlayerAttribute value, JsonSerializerOptions options)
     {
+        //options.get
         writer.WriteStartObject();
 
         writer.WriteString(nameof(value.Type), value.Type.ToString());

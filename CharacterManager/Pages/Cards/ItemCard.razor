@@ -1,0 +1,27 @@
+﻿<MudCard>
+	<MudCardContent>
+		<MudStack>
+			<MudText Typo="Typo.body1">@Item.Name</MudText>
+			<MudText Typo="Typo.body2">@Item.Description</MudText>
+			<MudText Typo="Typo.caption">@Item.Weight.ToString("N2") kg</MudText>
+		</MudStack>
+	</MudCardContent>
+	<MudCardActions>
+		<MudButton Color="Color.Primary"
+				   OnClick="Select">Select</MudButton>
+	</MudCardActions>
+</MudCard>
+
+@code {
+	[Parameter]
+	public Item Item { get; set; } = null!;
+
+	[Parameter]
+	public EventCallback<Item> Selected { get; set; }
+
+	async Task Select()
+	{
+		if (Selected.HasDelegate)
+			await Selected.InvokeAsync(Item);
+	}
+}

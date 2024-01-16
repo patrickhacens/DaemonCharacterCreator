@@ -1,0 +1,63 @@
+﻿<MudCard>
+	<MudCardContent>
+		<MudGrid Spacing="0">
+			<MudItem xs="12">
+				<MudText Typo="Typo.body1">@Weapon.Name</MudText>
+			</MudItem>
+			<MudItem xs="12">
+				<MudText Typo="Typo.body2">@Weapon.Description</MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2"><b>Damage</b></MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2"><b>2h Damage</b></MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2"><b>Skill</b></MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2"><b>INI Penalty</b></MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2">@Weapon.Damage</MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2">@Weapon.TwoHandedDamage</MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2">@Weapon.Skill</MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2">@Weapon.InitiativePenalty</MudText>
+			</MudItem>
+			<MudItem xs="6">
+				@if (Weapon.BonusAttribute.HasValue)
+				{
+					<MudChip Size="Size.Small">@Weapon.BonusAttribute.Value.ToString().ToUpper()[..3]</MudChip>
+				}
+			</MudItem>
+			<MudItem xs="6">
+				<MudText Typo="Typo.caption">@Weapon.Weight.ToString("N2") kg</MudText>
+			</MudItem>
+		</MudGrid>
+	</MudCardContent>
+	<MudCardActions>
+		<MudButton Color="Color.Primary"
+				   OnClick="Select">Select</MudButton>
+	</MudCardActions>
+</MudCard>
+
+@code {
+	[Parameter]
+	public Weapon Weapon { get; set; } = null!;
+
+	[Parameter]
+	public EventCallback<Weapon> Selected { get; set; }
+
+	async Task Select()
+	{
+		if (Selected.HasDelegate)
+			await Selected.InvokeAsync(Weapon);
+	}
+}

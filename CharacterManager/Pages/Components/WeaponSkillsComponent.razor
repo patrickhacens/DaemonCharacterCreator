@@ -46,14 +46,14 @@ else
 
                 <MudItem xs="2">
                     <MudStack Spacing="0">
-                        <InputNumber class="input" @bind-Value="skill.Value" />
+                        <MudInput InputType="InputType.Number" @bind-Value="skill.Value" Margin="Margin.Dense" />
                         <MudText>@skill.Total</MudText>
                     </MudStack>
                 </MudItem>
 
                 <MudItem xs="2">
                     <MudStack Spacing="0">
-                        <InputNumber class="input" @bind-Value="skill.DefenseValue" />
+                        <MudInput InputType="InputType.Number" @bind-Value="skill.DefenseValue" Margin="Margin.Dense" />
                         <MudText>@skill.DefenseTotal</MudText>
                     </MudStack>
                 </MudItem>

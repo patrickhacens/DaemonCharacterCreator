@@ -160,12 +160,12 @@ public static class DaemonDb
             Description = "É difícil esquecer a sua Intimidação. Caso você seja bem sucedido num teste de Intimidar, o oponente intimidado sofre um redutor de 10% em todos os testes que fizer contra você, por um número de rodadas igual a seu Nível de personagem."
         };
 
-        string[] maetriaArtesMarciais = ["1d4+FR", "1d6+FR", "1d6+1+FR", "2d6+2+FR", "1d10+FR"];
+        string[] maestriaArtesMarciais = ["1d4+FR", "1d6+FR", "1d6+1+FR", "2d6+2+FR", "1d10+FR"];
         for (int i = 1; i <= 5; i++)
         {
             yield return new Advantage($"Maestria em Artes Marciais ({i})", i)
             {
-                Description = "Seus golpes de artes marciais são devastadores. Seu dano da perícia Artes Marciais é modificado para " + maetriaArtesMarciais[i-1]
+                Description = "Seus golpes de artes marciais são devastadores. Seu dano da perícia Artes Marciais é modificado para " + maestriaArtesMarciais[i-1]
             };
         }
 

@@ -1,0 +1,69 @@
+﻿@inherits BaseEditor<Item>
+
+<MudGrid>
+	<MudForm @ref="form" ReadOnly="ReadOnly">
+
+		<MudItem xs="12">
+			<MudTextField @bind-Value="Weapon.Name"
+						  Label="Armor" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudTextField @bind-Value="Weapon.Description"
+						  Label="Description" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Weapon.Weight"
+							 Label="Weight"
+							 Adornment="Adornment.End"
+							 AdornmentText="kg"
+							 Step=".01" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudTextField @bind-Value="Weapon.Damage"
+						  Label="Damage" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudTextField @bind-Value="Weapon.Skill"
+						  Label="Skill" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudSelect T="AttributeType?"
+					   @bind-Value="Weapon.BonusAttribute"
+					   Label="Bonus Attribute">
+				<MudSelectItem T="AttributeType?" Value="null">None</MudSelectItem>
+				@foreach (var attr in Enum.GetValues<AttributeType>())
+				{
+					<MudSelectItem T="AttributeType?"
+								   Value="attr">
+						@attr.ToString()
+					</MudSelectItem>
+				}
+			</MudSelect>
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Weapon.InitiativePenalty"
+							 Label="Initiative Penalty"
+							 Min="0"
+							 Step="1" />
+		</MudItem>
+	</MudForm>
+</MudGrid>
+
+
+@code {
+	[Parameter]
+	public override Item Model
+	{
+		get => Weapon;
+		set => Weapon = (Weapon)value;
+	}
+
+	Weapon Weapon = new Weapon();
+
+}

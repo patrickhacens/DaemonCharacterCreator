@@ -7,7 +7,7 @@ else
     <MudPaper Class="pa-2">
         <MudText Typo="Typo.h6">Attributes</MudText>
         <MudGrid Spacing="0" Justify="Justify.Center" Class="align-center">
-            <MudItem xs="3" />
+            <MudItem xs="3" ></MudItem>
             <MudItem xs="3">
                 <MudText>Base</MudText>
             </MudItem>
@@ -21,18 +21,19 @@ else
             {
                 <MudItem xs="3">
                     <MudText>@attr.Type.ToString()[..3].ToUpper()</MudText>
-                    </MudItem>
+                </MudItem>
 
                 <MudItem xs="3">
-                    <InputNumber class="input" @bind-Value="attr.BaseValue" />
+                    <MudInput InputType="InputType.Number" @bind-Value="attr.BaseValue" Margin="Margin.Dense"/>
                 </MudItem>
 
                 <MudItem xs="3">
                     <MudText>@attr.BaseModifier</MudText>
-                    </MudItem>
+                </MudItem>
+
                 <MudItem xs="3">
                     <MudText>@attr.Percent</MudText>
-                    </MudItem>
+                </MudItem>
 
             }
         </MudGrid>
@@ -43,5 +44,5 @@ else
 
 @code {
     [Parameter]
-    public Player Player { get; set; }
+    public Player Player { get; set; } = null!;
 }

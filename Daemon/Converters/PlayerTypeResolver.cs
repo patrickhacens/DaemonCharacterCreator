@@ -8,42 +8,57 @@ namespace Daemon.Converters;
 
 public class PlayerTypeResolver : DefaultJsonTypeInfoResolver
 {
-	public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
-	{
-		JsonTypeInfo jsonTypeInfo = base.GetTypeInfo(type, options);
+    public override JsonTypeInfo GetTypeInfo(Type type, JsonSerializerOptions options)
+    {
+        JsonTypeInfo jsonTypeInfo = base.GetTypeInfo(type, options);
 
-		Type baseItemType = typeof(Item);
-		if (jsonTypeInfo.Type == baseItemType)
-		{
-			jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
-			{
-				TypeDiscriminatorPropertyName = "$type",
-				IgnoreUnrecognizedTypeDiscriminators = true,
-				UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
-				DerivedTypes =
-				{
-					new JsonDerivedType(typeof(Weapon), nameof(Weapon)),
-					new JsonDerivedType(typeof(Armor), nameof(Armor))
-				}
-			};
-		}
-		Type baseModifierType = typeof(IModifier);
-		if (jsonTypeInfo.Type == baseModifierType)
-		{
-			jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
-			{
-				TypeDiscriminatorPropertyName = "$of",
-				IgnoreUnrecognizedTypeDiscriminators = true,
-				UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
-				DerivedTypes =
-				{
-					new JsonDerivedType(typeof(Modifier<StatusType>), nameof(StatusType)),
-					new JsonDerivedType(typeof(Modifier<AttributeType>), nameof(AttributeType)),
-					new JsonDerivedType(typeof(Modifier<Skill>), nameof(Skill)),
-				}
-			};
-		}
+        Type baseItemType = typeof(Item);
+        if (jsonTypeInfo.Type == baseItemType)
+        {
+            jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
+            {
+                TypeDiscriminatorPropertyName = "$type",
+                IgnoreUnrecognizedTypeDiscriminators = true,
+                UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
+                DerivedTypes =
+                {
+                    new JsonDerivedType(typeof(Weapon), nameof(Weapon)),
+                    new JsonDerivedType(typeof(Armor), nameof(Armor))
+                }
+            };
+        }
+        Type baseModifierType = typeof(IModifier);
+        if (jsonTypeInfo.Type == baseModifierType)
+        {
+            jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
+            {
+                TypeDiscriminatorPropertyName = "$of",
+                IgnoreUnrecognizedTypeDiscriminators = true,
+                UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FailSerialization,
+                DerivedTypes =
+                {
+                    new JsonDerivedType(typeof(Modifier<StatusType>), nameof(StatusType)),
+                    new JsonDerivedType(typeof(Modifier<AttributeType>), nameof(AttributeType)),
+                    new JsonDerivedType(typeof(Modifier<Skill>), nameof(Skill)),
+                }
+            };
+        }
+        Type baseSkillType = typeof(PlayerSkill);
+        if (jsonTypeInfo.Type == baseSkillType)
+        {
+            jsonTypeInfo.PolymorphismOptions = new JsonPolymorphismOptions
+            {
+                TypeDiscriminatorPropertyName = "$type",
+                IgnoreUnrecognizedTypeDiscriminators = true,
+                UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType,
+                DerivedTypes =
+                {
+                    new JsonDerivedType(typeof(PlayerSkill)),
+                    new JsonDerivedType(typeof(WeaponSkill), nameof(WeaponSkill))
+                }
+            };
+        }
 
-		return jsonTypeInfo;
-	}
+        return jsonTypeInfo;
+    }
 }

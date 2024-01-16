@@ -1,0 +1,8 @@
+﻿Name,Description,DexPenalty,AgiPenalty,IP,Weight,Cost
+Kami Shimo,Vestimento formal samurais,0,0,0,1.5,12
+Tanko do,Armadura Peitoral Primitiva,1,3,4,20,38
+Okashi,Armadura para soldados,1,1,2,15,40
+Yoroi,Armadura Completa,2,3,6,12,250
+Haramaki,Armadura Completa,2,3,5,7,450
+Do maru,Evolucao Haramaki,3,2,6,12,400
+Do Maru Yoroi,Mistura da Maru e Yoroi,2,3,4,12,300

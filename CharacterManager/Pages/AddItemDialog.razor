@@ -1,0 +1,142 @@
+﻿@using System.Text
+@using CharacterManager.Pages.Cards
+@using CharacterManager.Pages.Editors;
+@inject ILogger<AddItemDialog> logger;
+@inject ISnackbar snack;
+
+<MudDialog>
+	<TitleContent>
+		<MudStack Row="true" AlignItems="AlignItems.Center">
+			<MudText Typo="Typo.h6">Add Items</MudText>
+			<MudSpacer />
+			<MudSwitch @bind-Value="custom" Label="custom" />
+		</MudStack>
+	</TitleContent>
+	<DialogContent>
+		<MudStack>
+			<MudSelect T="string" ValueChanged="async t => await Load(t)">
+				<MudSelectItem T="string" Value="@("armors")">Armor</MudSelectItem>
+				<MudSelectItem T="string" Value="@("weapons")">Weapon</MudSelectItem>
+			</MudSelect>
+			@if (custom)
+			{
+				switch (type)
+				{
+					case "armors":
+						<ArmorEditor @ref="editor" />
+						break;
+					case "weapons":
+						<WeaponEditor @ref="editor" />
+						break;
+				}
+			}
+			else
+			{
+				<MudTextField @bind-Value="filter" Label="Filter" DebounceInterval="200" OnDebounceIntervalElapsed="Filter" />
+				<div style="max-height:80vh">
+					<MudStack>
+						@foreach (var item in Items)
+						{
+							if (item is Armor ar)
+							{
+								<ArmorCard Armor="ar" Selected="Add" />
+							}
+							else if (item is Weapon wp)
+							{
+								<WeaponCard Weapon="wp" Selected="Add" />
+							}
+							else
+							{
+								<ItemCard Item="item" Selected="Add" />
+							}
+						}
+					</MudStack>
+				</div>
+			}
+		</MudStack>
+	</DialogContent>
+	<DialogActions>
+		@if (custom && editor != null)
+		{
+			<MudButton Color="Color.Primary"
+					   Disabled="editor.IsValid"
+					   OnClick="AddCustom">Add</MudButton>
+		}
+	</DialogActions>
+</MudDialog>
+
+@code {
+	[CascadingParameter]
+	MudDialogInstance Instance { get; set; } = null!;
+
+	[Inject]
+	HttpClient Http { get; set; } = null!;
+
+	BaseEditor<Item>? editor;
+	string? filter;
+	bool custom;
+
+	IEnumerable<Item> DataSource = Enumerable.Empty<Item>();
+	IEnumerable<Item> Items = Enumerable.Empty<Item>();
+
+	string type;
+	async Task Load(string type)
+	{
+		this.type = type;
+		// var sanityCheck = await Http.GetAsync("app.css");
+		var response = await Http.GetAsync($"data/{type}.csv");
+		var stream = await response.Content.ReadAsStreamAsync();
+		try
+		{
+			var config = new CsvHelper.Configuration.CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture)
+				{
+					IgnoreBlankLines =true,
+					HasHeaderRecord = true,
+					HeaderValidated = null,
+					MissingFieldFound = null,
+				};
+			using var sr = new StreamReader(stream, Encoding.UTF8);
+			using CsvHelper.CsvReader reader = new(sr, config);
+
+			if (type == "armors")
+				DataSource = reader.GetRecords<Armor>().ToArray();
+			else if (type == "weapons")
+				DataSource = reader.GetRecords<Weapon>().ToArray();
+
+			Filter();
+
+		}
+		catch (Exception ex)
+		{
+			snack.Add("Could not load items", Severity.Error);
+			logger.LogError(ex, "during item loading");
+		}
+		finally
+		{
+			stream.Dispose();
+			response.Dispose();
+		}
+	}
+
+	void Filter()
+	{
+		Items = DataSource.AsEnumerable();
+		if (!String.IsNullOrWhiteSpace(filter))
+			Items = Items.Where(d => d.Name.Contains(filter));
+
+#if DEBUG
+	logger.LogInformation("DataSource: {dataSourceCount} items, Filters: {filterCount} items", DataSource.Count(), Items.Count());
+#endif
+	}
+
+	async Task AddCustom()
+	{
+		if (editor != null && await editor!.Validate())
+			Instance.Close(editor.Model);
+	}
+
+	void Add(Item item)
+	{
+		Instance.Close(item);
+	}
+}

@@ -9,6 +9,9 @@
 @inject IJSRuntime js;
 @inject IDialogService diagService;
 
+@if (player != null)
+{
+    
 <MudToolBar Dense="true" DisableGutters>
     <MudTooltip Text="Save">
         <MudIconButton Icon="@Icons.Material.Filled.Save"
@@ -54,15 +57,19 @@
         <WeaponSkillsComponent Player="player" />
     </MudItem>
 
+    
     <MudItem xs="12" sm="6">
-        <AdvantagesComponent Player="player" />
+        <ItemsComponent Items="(player.Items)" />
     </MudItem>
-
 
     <MudItem xs="12" sm="6">
         <SkillsComponent Player="player" />
     </MudItem>
+    <MudItem xs="12" sm="6">
+        <AdvantagesComponent Player="player" />
+    </MudItem>
 </MudGrid>
+}
 
 @code {
     [Parameter]
@@ -74,7 +81,6 @@
     protected override async Task OnInitializedAsync()
     {
         player = await db.GetByKey<string, Player>(Name);
-        logger.LogInformation("{player}", player);
     }
 
     async Task Delete()
@@ -106,7 +112,7 @@
     {
         var player = await JsonSerializer.DeserializeAsync<Player>(file.OpenReadStream(), jOptions);
         this.player = player;
-        snackbar.Add("file succesfully imported", Severity.Success);
+        snackbar.Add("file successfully imported", Severity.Success);
     }
 
     async Task Save()

@@ -1,0 +1,58 @@
+﻿@inherits BaseEditor<Item>
+
+<MudGrid>
+	<MudForm @ref="form" ReadOnly="ReadOnly">
+
+		<MudItem xs="12">
+			<MudTextField @bind-Value="Armor.Name"
+						  Label="Armor" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudTextField @bind-Value="Armor.Description"
+						  Label="Description" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Armor.Weight"
+							 Label="Weight"
+							 Adornment="Adornment.End"
+							 AdornmentText="kg"
+							 Step=".01" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Armor.IP"
+							 Label="IP"
+							 Min="0"
+							 Step="1" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Armor.DexPenalty"
+							 Label="DEX Penalty"
+							 Min="0"
+							 Step="1" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Armor.AgiPenalty"
+							 Label="AGI Penalty"
+							 Min="0"
+							 Step="1" />
+		</MudItem>
+	</MudForm>
+</MudGrid>
+
+
+@code {
+
+	Armor Armor = new();
+
+	[Parameter]
+	public override Item Model
+	{
+		get => Armor;
+		set => Armor=(Armor)value;
+	}
+}

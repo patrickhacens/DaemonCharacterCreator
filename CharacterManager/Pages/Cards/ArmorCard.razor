@@ -1,0 +1,51 @@
+﻿<MudCard>
+	<MudCardContent>
+		<MudGrid Spacing="0">
+			<MudItem xs="12">
+				<MudText Typo="Typo.body1">@Armor.Name</MudText>
+				</MudItem>
+				<MudItem xs="12">
+					<MudText Typo="Typo.body2">@Armor.Description</MudText>
+				</MudItem>
+				<MudItem xs="4">
+					<MudText Typo="Typo.body2"><b>DEX Penalty</b></MudText>
+				</MudItem>
+				<MudItem xs="4">
+					<MudText Typo="Typo.body2"><b>Agi Penalty</b></MudText>
+				</MudItem>
+				<MudItem xs="4">
+					<MudText Typo="Typo.body2"><b>IP</b></MudText>
+				</MudItem>
+				<MudItem xs="4">
+					<MudText Typo="Typo.body2">@Armor.DexPenalty</MudText>
+				</MudItem>
+				<MudItem xs="4">
+					<MudText Typo="Typo.body2">@Armor.AgiPenalty</MudText>
+				</MudItem>
+				<MudItem xs="4">
+					<MudText Typo="Typo.body2">@Armor.IP</MudText>
+				</MudItem>
+				<MudItem xs="6">
+					<MudText Typo="Typo.caption">@Armor.Weight.ToString("N2") kg</MudText>
+			</MudItem>
+		</MudGrid>
+	</MudCardContent>
+	<MudCardActions>
+		<MudButton Color="Color.Primary"
+				   OnClick="Select">Select</MudButton>
+	</MudCardActions>
+</MudCard>
+
+@code {
+	[Parameter]
+	public Armor Armor { get; set; } = null!;
+
+	[Parameter]
+	public EventCallback<Armor> Selected { get; set; }
+
+	async Task Select()
+	{
+		if (Selected.HasDelegate)
+			await Selected.InvokeAsync(Armor);
+	}
+}

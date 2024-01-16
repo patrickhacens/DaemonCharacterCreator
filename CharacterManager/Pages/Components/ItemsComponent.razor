@@ -1,0 +1,73 @@
+﻿@inject IDialogService diagService;
+<MudPaper Class="pa-2">
+	<MudGrid Spacing="0">
+		<MudItem xs="12">
+			<MudStack Spacing="0" Row="true" AlignItems="AlignItems.Center">
+				<MudText Typo="Typo.h5">Items</MudText>
+				<MudSpacer />
+				<MudIconButton Icon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="async () => await Add()" />
+			</MudStack>
+		</MudItem>
+		@if (!Items.Any())
+		{
+			<MudItem xs="12">
+				<MudStack AlignItems="AlignItems.Center">
+					<MudIcon Icon="@Icons.Material.Filled.Cancel" Size="Size.Large" />
+					<MudText Typo="Typo.body2">There are no items</MudText>
+				</MudStack>
+			</MudItem>
+		}
+		else
+		{
+			@foreach (var category in Items.GroupBy(d => d.GetType().Name).OrderBy(d => d.Key))
+			{
+				<MudItem xs="12">
+					<MudText Typo="Typo.h6">@category.Key</MudText>
+					</MudItem>
+				@foreach (var item in category)
+				{
+					<MudItem xs="8">
+						<MudText>@item.Name</MudText>
+						</MudItem>
+
+					<MudItem xs="3">
+						<MudText>@item.Weight.ToString("N2") kg</MudText>
+					</MudItem>
+
+					<MudItem xs="1">
+						<MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Visibility" OnClick="() => Show(item)" Color="Color.Primary" />
+					</MudItem>
+				}
+			}
+			<MudItem xs="5">
+				<MudText><b>Total</b></MudText>
+			</MudItem>
+			<MudItem xs="7">
+				<MudText Align="Align.End">@Items.Sum(d => d.Weight).ToString("N2") kg</MudText>
+			</MudItem>
+		}
+	</MudGrid>
+</MudPaper>
+
+@code {
+	[Parameter]
+	public IList<Item> Items { get; set; } = null!;
+
+	async Task Show(Item item)
+	{
+		var dialog = diagService.Show<ViewItemDialog>(null, new DialogParameters{
+			{nameof(ViewItemDialog.Item), item  }
+		});
+		var result = await dialog.Result;
+		if (!result.Canceled && result.Data is Item)
+			Items.Remove(item);
+	}
+
+	async Task Add()
+	{
+		var dialog = diagService.Show<AddItemDialog>();
+		var result = await dialog.Result;
+		if (!result.Canceled && result.Data is Item item)
+			Items.Add(item);
+	}
+}

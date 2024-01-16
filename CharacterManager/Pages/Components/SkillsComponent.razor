@@ -35,25 +35,25 @@ else
 
              </MudItem>
 
-             @foreach (var item in Player.Skills.Where(d=>d.GetType() != typeof(WeaponSkill)).OrderBy(d => d.Name))
+            @foreach (var item in Player.Skills.Where(d=>d.GetType() != typeof(WeaponSkill)).OrderBy(d => d.Name))
             {
                 <MudItem xs="7">
                     <MudText>@item.Name</MudText>
                     </MudItem>
 
                 <MudItem xs="2">
-                    <InputNumber class="input" @bind-Value="@item.Value" />
+                    <MudInput InputType="InputType.Number" @bind-Value="item.Value" Margin="Margin.Dense" />
                 </MudItem>
 
                 <MudItem xs="2">
                     <MudTooltip>
                         <ChildContent>
                             <MudText>@item.Total</MudText>
-                            </ChildContent>
-                            <TooltipContent>
-                                <MudStack>
-                                    <MudText>
-                                        @item.BasedAttribute?.ToString()[..3].ToUpper()
+                        </ChildContent>
+                        <TooltipContent>
+                            <MudStack>
+                                <MudText>
+                                    @item.BasedAttribute?.ToString()[..3].ToUpper()
                                 </MudText>
                                 <MudText>
                                     @item.Description
@@ -101,12 +101,12 @@ else
         if (!result.Canceled && result.Data is Skill skill)
         {
             Player.Skills.Add(new PlayerSkill
-                {
-                    BasedAttribute = skill.Attribute,
-                    Description = skill.Description!,
-                    Name = skill.Name,
-                    Value = 0
-                });
+            {
+                BasedAttribute = skill.Attribute,
+                Description = skill.Description!,
+                Name = skill.Name,
+                Value = 0
+            });
         }
     }
 }

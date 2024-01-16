@@ -1,0 +1,38 @@
+﻿@using CharacterManager.Pages.Editors
+<MudDialog>
+	<DialogContent>
+		@if (Item is Armor armor)
+		{
+			<ArmorEditor Model="armor" ReadOnly="true" />
+		}
+		else if (Item is Weapon weapon)
+		{
+			<WeaponEditor Model="weapon" ReadOnly="true" />
+		}
+		else
+		{
+
+		}
+	</DialogContent>
+	<DialogActions>
+		<MudButton Color="Color.Error" OnClick="Remove">Remove</MudButton>
+	</DialogActions>
+</MudDialog>
+
+@code {
+	[Parameter]
+	public Item Item { get; set; } = null!;
+
+
+	[CascadingParameter]
+	MudDialogInstance Instance { get; set; } = null!;
+
+	[Inject]
+	public IDialogService DiagService { get; set; } = null!;
+
+	async Task Remove()
+	{
+		if (await DiagService.ShowMessageBox("Remove item", "Are you sure? This action can't be undone", "Remove", "Cancel") == true)
+			Instance.Close(Item);
+	}
+}
