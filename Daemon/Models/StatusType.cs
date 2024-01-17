@@ -11,5 +11,8 @@ public enum StatusType
     Focus,
     Inspiration,
     Faith,
-    Initiative
+    Initiative,
+    Movement,
+    Run,
+    Action
 }
