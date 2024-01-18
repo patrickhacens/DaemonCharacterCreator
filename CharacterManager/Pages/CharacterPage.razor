@@ -38,24 +38,20 @@
 						   OnClick="Delete"
 						   Color="Color.Error" />
 		</MudTooltip>
-
-		<MudTooltip Text="Change between character view and modifiers view">
-			<MudToggleIconButton @bind-Toggled="showModifiers"
-								 Icon="@Icons.Custom.FileFormats.FileCode"
-								 ToggledIcon="@Icons.Material.Filled.AssignmentInd" />
-		</MudTooltip>
 	</MudToolBar>
 
 	<MudTabs Position="Position.Bottom">
-		<MudTabPanel Text="Character Details" Icon="@Icons.Material.Filled.AssignmentInd">
+		<MudTabPanel Text="Details" Icon="@Icons.Material.Filled.AssignmentInd">
 
 			<MudGrid Class="mb-2">
 				<MudItem xs="12">
 					<DescriptionComponent Player="player" />
 				</MudItem>
 
-				<MudItem xs="12" md="4">
-					<AttributesComponent Player="player" />
+				<MudItem xs="12" sm="6" md="4">
+					<MudPaper Class="pa-2">
+						<MudText>Actions</MudText>
+					</MudPaper>
 				</MudItem>
 
 				<MudItem xs="12" sm="6" md="4">
@@ -63,18 +59,19 @@
 				</MudItem>
 
 
-				<MudItem xs="12" sm="6" md="4" Class="flex">
-					<WeaponSkillsComponent Player="player" />
+				<MudItem xs="12" sm="6" md="4">
+					<AttributesComponent Player="player" />
 				</MudItem>
 
+				<MudItem xs="12" sm="6">
+					<WeaponSkillsComponent Player="player" />
+					<SkillsComponent Player="player" />
+				</MudItem>
 
 				<MudItem xs="12" sm="6">
 					<ItemsComponent Items="(player.Items)" />
 				</MudItem>
 
-				<MudItem xs="12" sm="6">
-					<SkillsComponent Player="player" />
-				</MudItem>
 				<MudItem xs="12" sm="6">
 					<AdvantagesComponent Player="player" />
 				</MudItem>
