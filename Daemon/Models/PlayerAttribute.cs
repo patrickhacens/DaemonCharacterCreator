@@ -20,14 +20,12 @@ public class PlayerAttribute
 
     public int BaseValue { get; set; }
 
-    public int BaseModifier { get; set; }
-
-    public int CalculatedModifier => player.Modifiers
+    public int Modifier => player.Modifiers
         .OfType<Modifier<AttributeType>>()
         .Where(d => d.ModificationTarget == Type)
         .Sum(d => d.Value);
 
-    public int Total => BaseValue + BaseModifier + CalculatedModifier;
+    public int Total => BaseValue + Modifier;
 
     public int Percent => Total * 4;
 
@@ -56,7 +54,6 @@ public class PlayerAttribute
             if (exists is not null)
             {
                 exists.BaseValue = item.BaseValue;
-                exists.BaseModifier = item.BaseModifier;
             }
             else
             {

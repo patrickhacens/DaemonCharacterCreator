@@ -34,9 +34,6 @@ public class AttributeConverter : JsonConverter<PlayerAttribute>
                 case nameof(result.BaseValue):
                     result.BaseValue = reader.GetInt32();
                     break;
-                case nameof(result.BaseModifier):
-                    result.BaseModifier = reader.GetInt32();
-                    break;
                 default:
                     throw new JsonException($"Unexpected property name {propertyName}");
             }
@@ -52,7 +49,6 @@ public class AttributeConverter : JsonConverter<PlayerAttribute>
 
         writer.WriteString(nameof(value.Type), value.Type.ToString());
         writer.WriteNumber(nameof(value.BaseValue), value.BaseValue);
-        writer.WriteNumber(nameof(value.BaseModifier), value.BaseModifier);
 
         writer.WriteEndObject();
     }
