@@ -2,11 +2,12 @@
     <MudNumericField @bind-Value="Status.Value"
                      Label="@Status.Type.ToString()"
                      Adornment="Adornment.End"
+                     ReadOnly="Status.IsReadOnly()"
                      FullWidth="false"
                      Variant="Variant.Text" />
 </MudPaper>
 
 @code {
     [Parameter]
-    public Status Status { get; set; }
+    public Status Status { get; set; } = null!;
 }

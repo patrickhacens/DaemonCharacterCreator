@@ -30,7 +30,7 @@ public class Status
 
     public int Value
     {
-        get => (calculationExpression != null ? calculationExpression(player) : initialValue) + (player?
+        get => (IsReadOnly() ? calculationExpression(player) : initialValue) + (player?
             .Modifiers
             .OfType<Modifier<StatusType>>()
             .Where(d => d.ModificationTarget == Type)
@@ -40,6 +40,8 @@ public class Status
             initialValue = value;
         }
     }
+
+    public bool IsReadOnly() => calculationExpression != null;
 
 
     public class PlayerStatusCollection(Player player) : ICollection<Status>

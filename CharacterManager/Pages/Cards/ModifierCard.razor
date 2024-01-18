@@ -2,8 +2,8 @@
 	<MudCardContent>
 		<MudStack>
 
-			<MudStack Row="true">
-				<MudText Typo="Typo.body2"><b>@Modifier.GetTargetDescription(): @Modifier.Value</b></MudText>
+			<MudStack Row="true" AlignItems="AlignItems.Center">
+				<MudText Typo="Typo.body1"><b>@Modifier.GetTargetDescription(): @Modifier.Value</b></MudText>
 				<MudSpacer />
 
 				@if (OnDeleted.HasDelegate)

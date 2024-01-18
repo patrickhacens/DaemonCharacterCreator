@@ -20,7 +20,7 @@ public class Modifier<T> : IModifier
 
 	public int Value { get; set; }
 
-	public string GetTargetDescription() => ModificationTarget?.ToString() ?? String.Empty;
+	public string GetTargetDescription() => ModificationTarget is PlayerSkill skill ? $"Skill {skill.Name}" : ModificationTarget?.ToString() ?? String.Empty;
 }
 
 public interface IModifier

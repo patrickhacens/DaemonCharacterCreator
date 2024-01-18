@@ -1,30 +1,30 @@
 ﻿Name,Description,Skill,Critic,Critic Multiplier,InitiativePenalty,Damage,Dano 2h,Weight,Range,Cost
-Daikyu,Arco longo,Archery (Kyujutsu),20,3,-8,1d8,,1.5,120,120.00
-Hankyu,Arco curto,Archery (Kyujutsu),20,3,-4,1d4,,0.7,30,15.00
-Yumi,Arco japones,Archery (Kyujutsu),20,3,-6,1d6,,0,80,60.00
-Shuriken,Laminas de arremeço,Arremeço,20,2,-2,1d3,,0.05,30,0.50
+Daikyu,Arco longo,Archery (Kyujutsu),20,3,8,1d8,,1.5,120,120
+Hankyu,Arco curto,Archery (Kyujutsu),20,3,4,1d4,,0.7,30,15
+Yumi,Arco japones,Archery (Kyujutsu),20,3,6,1d6,,0,80,60
+Shuriken,Laminas de arremeço,Arremeço,20,2,2,1d3,,0.05,30,0.5
 Tsubushi,Caltrops,Arremeço,-,2,0,1d3+1,,0,0,0.05
-Fukiya,Blow gun,Blow Gun,-,-,-2,1d4,,0,0,10.00
-Sasumata,Bastao com spikes nas pontas e ponta para segurar laminas/pessoas,Bojutsu,20,2,-6,1d8,,0,0,80.00
-Tonfa,Bastao com pegada lateral,Bojutsu,20,2,-4,1d4,,0.8,0,10.00
-Jitte,Espada curta feita para quebrar armas,Jitte / Tantojutsu,20,2,-3,1d3,,0.1,0,0.24
-Bokken,Espada de madeira,Kenjutsu,19,2,-4,1d1,1d2,0,0,1.00
-Katana,Lamina curvada,Kenjutsu,18,2,-4,1d8,2d6,2.5,0,120.00
-Kodachi,Lamina curvada curta,Kenjutsu,19,2,-3,1d8,,0,0,80.00
-Ninjato,Espada reta,Kenjutsu,18,2,-4,1d8,,2,0,32.00
-Shinai,Espada de madeira para treino,Kenjutsu,20,2,-5,1d1,1d2,0,0,1.50
-Kusarigama,Foi e bola de metal ligadas por correntes,Kusarigamajutsu / Tantojutsu / Arremeco,20,2,-5,1d6,,0,0,5.00
-Naginata,Lanca com lamina,Naginatajutsu / Bojutsu,20,3,-5,1d10,,1.5,4,15.00
-Nunchaku,Bastoes curto com 2 segmentos,Nunchaku,19,2,-3,1d6,,1.2,0,3.00
-Sansetsukon,Bastao com 3 segmentos,Nunchaku,19,3,-7,1d6+2,,2,3,12.00
-KamaYari,Lanca com lamina principal e laminas laterais,Sojutsu,20,3,-6,1d8,1d10,2.5,4,25.00
-Yari,Lanca com lamina,Sojutsu,20,3,-6,1d6,1d8,2.2,4,16.00
-Nodachi / Otachi,Lamina curvada muito longa,Tachijutsu,19,3,-10,-,3d6+1,7,0,28.00
-Tachi,Lamina curvada longa,Tachijutsu,19,3,-9,-,2d6+3,8,0,28.00
-Uchigatana,Lamina curvada longa,Tachijutsu,19,3,-8,-,2d6,9,0,28.00
-Sai,Adaga fina com bordas,Tantojutsu,20,2,-4,1d4,,0.1,0,0.20
-Tanto,Lamina curvada curta cerimonial,Tantojutsu,20,2,-3,1d3,,0.2,0,0.20
-Wakizashi,Lamina curvada curta,Tantojutsu,19,2,-4,1d6,,1,0,50.00
-Kunai,Adaga de arremeço,Tantojutsu / Arremeço,20,2,-3,1d3,,0,0,1.00
-Tessen,Leque com laminas,Tessenjutsu,20,2,-3,1d3+2,,0,0,0.20
-Tetsubo,Bastão,Bojutsu,20,2,-7,1d10,,3,0,3.00
+Fukiya,Blow gun,Blow Gun,-,-,2,1d4,,0,0,10
+Sasumata,Bastao com spikes nas pontas e ponta para segurar laminas/pessoas,Bojutsu,20,2,6,1d8,,0,0,80
+Tonfa,Bastao com pegada lateral,Bojutsu,20,2,4,1d4,,0.8,0,10
+Jitte,Espada curta feita para quebrar armas,Jitte / Tantojutsu,20,2,3,1d3,,0.1,0,0.24
+Bokken,Espada de madeira,Kenjutsu,19,2,4,1d1,1d2,0,0,1
+Katana,Lamina curvada,Kenjutsu,18,2,4,1d8,2d6,2.5,0,120
+Kodachi,Lamina curvada curta,Kenjutsu,19,2,3,1d8,,0,0,80
+Ninjato,Espada reta,Kenjutsu,18,2,4,1d8,,2,0,32
+Shinai,Espada de madeira para treino,Kenjutsu,20,2,5,1d1,1d2,0,0,1.5
+Kusarigama,Foi e bola de metal ligadas por correntes,Kusarigamajutsu / Tantojutsu / Arremeco,20,2,5,1d6,,0,0,5
+Naginata,Lanca com lamina,Naginatajutsu / Bojutsu,20,3,5,1d10,,1.5,4,15
+Nunchaku,Bastoes curto com 2 segmentos,Nunchaku,19,2,3,1d6,,1.2,0,3
+Sansetsukon,Bastao com 3 segmentos,Nunchaku,19,3,7,1d6+2,,2,3,12
+KamaYari,Lanca com lamina principal e laminas laterais,Sojutsu,20,3,6,1d8,1d10,2.5,4,25
+Yari,Lanca com lamina,Sojutsu,20,3,6,1d6,1d8,2.2,4,16
+Nodachi / Otachi,Lamina curvada muito longa,Tachijutsu,19,3,10,-,3d6+1,7,0,28
+Tachi,Lamina curvada longa,Tachijutsu,19,3,9,-,2d6+3,8,0,28
+Uchigatana,Lamina curvada longa,Tachijutsu,19,3,8,-,2d6,9,0,28
+Sai,Adaga fina com bordas,Tantojutsu,20,2,4,1d4,,0.1,0,0.2
+Tanto,Lamina curvada curta cerimonial,Tantojutsu,20,2,3,1d3,,0.2,0,0.2
+Wakizashi,Lamina curvada curta,Tantojutsu,19,2,4,1d6,,1,0,50
+Kunai,Adaga de arremeço,Tantojutsu / Arremeço,20,2,3,1d3,,0,0,1
+Tessen,Leque com laminas,Tessenjutsu,20,2,3,1d3+2,,0,0,0.2
+Tetsubo,Bastão,Bojutsu,20,2,7,1d10,,3,0,3
