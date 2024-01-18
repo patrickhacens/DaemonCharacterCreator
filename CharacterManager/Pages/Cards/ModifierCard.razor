@@ -1,0 +1,36 @@
+﻿<MudCard Elevation="2">
+	<MudCardContent>
+		<MudStack>
+
+			<MudStack Row="true">
+				<MudText Typo="Typo.body2"><b>@Modifier.GetTargetDescription(): @Modifier.Value</b></MudText>
+				<MudSpacer />
+
+				@if (OnDeleted.HasDelegate)
+				{
+					<MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="Delete" Color="Color.Error" />
+				}
+
+			</MudStack>
+		<MudText Typo="Typo.caption">Origin: <b>@Modifier.Origin</b></MudText>
+		</MudStack>
+	</MudCardContent>
+</MudCard>
+
+@code {
+	[Parameter]
+	public IModifier Modifier { get; set; } = null!;
+
+	[Parameter]
+	public EventCallback<IModifier> OnDeleted { get; set; }
+
+	[Inject]
+	IDialogService dialogService { get; set; } = null!;
+	async Task Delete()
+	{
+		if (await dialogService.ShowMessageBox("Remove modifier", "You sure? This action can't be undone", "Remove", "Cancel")  == true)
+		{
+			await OnDeleted.InvokeAsync(Modifier);
+		}
+	}
+}

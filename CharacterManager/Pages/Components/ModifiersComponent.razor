@@ -1,0 +1,110 @@
+﻿@using CharacterManager.Pages.Cards;
+
+<MudPaper Class="pa-2">
+	<MudStack>
+
+		<MudText Typo="Typo.h5">Modifiers</MudText>
+		@if (CalculatedModifier?.Any() == true)
+		{
+			<MudText Typo="Typo.h6">Calculated</MudText>
+			<MudGrid Spacing="1">
+				@foreach (var mod in CalculatedModifier)
+				{
+					<MudItem xs="12" sm="6" md="4" lg="3" xl="2">
+						<ModifierCard Modifier="mod" />
+					</MudItem>
+				}
+
+			</MudGrid>
+		}
+		@if (CustomModifiers?.Any() == true)
+		{
+			<MudText Typo="Typo.h6"><b>Custom</b></MudText>
+			<MudGrid Spacing="1">
+				@foreach (var mod in CustomModifiers)
+				{
+					<MudItem xs="12" sm="6" md="4" lg="3" xl="2">
+						<ModifierCard Modifier="mod" />
+					</MudItem>
+				}
+
+			</MudGrid>
+		}
+
+		<MudText Typo="Typo.h6">Add Modifier</MudText>
+		<MudForm @ref="form">
+			<MudTextField Label="Origin" @bind-Value="origin" />
+			<MudSelect T="Type" @bind-Value="targetType" Label="Modification Target Type" Required>
+				@foreach (var type in types)
+				{
+					<MudSelectItem Value="type">@type.Name</MudSelectItem>
+				}
+			</MudSelect>
+			<MudSelect T="object"
+					   @bind-Value="targetValue"
+					   ToStringFunc="e => e is PlayerSkill s ? s.Name : e.ToString()"
+					   Label="Modification Target" Required>
+				@if (targetType?.IsEnum == true)
+				{
+					@foreach (var target in Enum.GetValues(targetType))
+					{
+						<MudSelectItem Value="(object)target">@target.ToString()</MudSelectItem>
+					}
+				}
+				else
+				{
+					@foreach (var skill in Skills)
+					{
+						<MudSelectItem Value="(object)(new PlayerSkill(skill))">@skill</MudSelectItem>
+					}
+				}
+			</MudSelect>
+			<MudNumericField Label="Value" Step="1" @bind-Value="value" Required />
+			</MudForm>
+			<MudButton OnClick="AddModifier" Variant="Variant.Filled">Add Modifier</MudButton>
+		</MudStack>
+	</MudPaper>
+
+	@code {
+	[Parameter]
+	public IEnumerable<IModifier> CalculatedModifier { get; set; } = null!;
+
+	[Parameter]
+	public IList<IModifier> CustomModifiers { get; set; } = null!;
+
+	[Parameter]
+	public IEnumerable<string> Skills { get; set; } = Enumerable.Empty<string>();
+
+	Type[] types = [typeof(StatusType), typeof(PlayerSkill), typeof(AttributeType)];
+
+	MudForm form = null!;
+	string? origin;
+	Type? targetType;
+	object? targetValue;
+	int value;
+
+	Task RemoveModifier(IModifier modifier)
+	{
+		CustomModifiers.Remove(modifier);
+		return Task.CompletedTask;
+	}
+	Type modifierGenericType = typeof(Modifier<>);
+
+	async Task AddModifier()
+	{
+		await form.Validate();
+		if (!form.IsValid) return;
+
+		Type modifierConcreteType = modifierGenericType.MakeGenericType(targetType!);
+		IModifier modifier = (IModifier)Activator.CreateInstance(modifierConcreteType)!;
+		modifier.Origin = origin;
+		modifier.Value = value;
+		modifier.GetType()
+			.GetProperty(nameof(Modifier<object>.ModificationTarget))!
+			.SetMethod!
+			.Invoke(modifier, new[] { targetValue });
+
+		CustomModifiers.Add(modifier);
+		await form.ResetAsync();
+	}
+}

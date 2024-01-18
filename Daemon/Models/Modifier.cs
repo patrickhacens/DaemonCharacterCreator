@@ -1,30 +1,32 @@
-﻿namespace Daemon.Models;
+﻿using System.Net.Http.Headers;
+
+namespace Daemon.Models;
 
 public class Modifier<T> : IModifier
 {
-    public Modifier()
-    {
-    }
+	public Modifier()
+	{
+	}
 
-    public Modifier(T modificationTarget, int value)
-    {
-        ModificationTarget=modificationTarget;
-        Value=value;
-    }
+	public Modifier(T modificationTarget, int value)
+	{
+		ModificationTarget=modificationTarget;
+		Value=value;
+	}
 
-    public T ModificationTarget
-    {
-        get => (T)ModificationTargetObj;
-        set => ModificationTargetObj = value!;
-    }
+	public T ModificationTarget { get; set; } = default!;
 
-    public int Value { get; set; }
+	public string? Origin { get; set; }
 
-    public object ModificationTargetObj { get; set; } = null!;
+	public int Value { get; set; }
+
+	public string GetTargetDescription() => ModificationTarget?.ToString() ?? String.Empty;
 }
+
 public interface IModifier
 {
-    public object ModificationTargetObj { get; set; }
+	int Value { get; set; }
+	string? Origin { get; set; }
 
-    int Value { get; set; }
+	string GetTargetDescription();
 }

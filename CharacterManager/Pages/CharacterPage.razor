@@ -11,123 +11,145 @@
 
 @if (player != null)
 {
-    
-<MudToolBar Dense="true" DisableGutters>
-    <MudTooltip Text="Save">
-        <MudIconButton Icon="@Icons.Material.Filled.Save"
-                       OnClick="Save" />
-    </MudTooltip>
 
-    <MudTooltip Text="Import character from file">
+	<MudToolBar Dense="true" DisableGutters>
+		<MudTooltip Text="Save">
+			<MudIconButton Icon="@Icons.Material.Filled.Save"
+						   OnClick="Save" />
+		</MudTooltip>
 
-        <MudFileUpload T="IBrowserFile" FilesChanged="Import"  Accept=".json" Class="ma-0">
-            <ButtonTemplate>
-                <MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.CloudUpload" for="@context.Id" />
-            </ButtonTemplate>
-        </MudFileUpload>
+		<MudTooltip Text="Import character from file">
 
-    </MudTooltip>
-    <MudTooltip Text="Export character to file">
+			<MudFileUpload T="IBrowserFile" FilesChanged="Import" Accept=".json" Class="ma-0">
+				<ButtonTemplate>
+					<MudIconButton HtmlTag="label" Icon="@Icons.Material.Filled.CloudUpload" for="@context.Id" />
+				</ButtonTemplate>
+			</MudFileUpload>
 
-        <MudIconButton Icon="@Icons.Material.Filled.CloudDownload"
-                       OnClick="Export" />
-    </MudTooltip>
-    <MudTooltip Text="Delete character">
+		</MudTooltip>
+		<MudTooltip Text="Export character to file">
 
-        <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                       OnClick="Delete"
-                       Color="Color.Error" />
-    </MudTooltip>
-</MudToolBar>
-<MudGrid>
-    <MudItem xs="12">
-        <DescriptionComponent Player="player" />
-    </MudItem>
+			<MudIconButton Icon="@Icons.Material.Filled.CloudDownload"
+						   OnClick="Export" />
+		</MudTooltip>
+		<MudTooltip Text="Delete character">
 
-    <MudItem xs="12" md="4">
-        <AttributesComponent Player="player" />
-    </MudItem>
+			<MudIconButton Icon="@Icons.Material.Filled.Delete"
+						   OnClick="Delete"
+						   Color="Color.Error" />
+		</MudTooltip>
 
-    <MudItem xs="12" sm="6" md="4">
-        <StatusComponent Player="player" />
-    </MudItem>
+		<MudTooltip Text="Change between character view and modifiers view">
+			<MudToggleIconButton @bind-Toggled="showModifiers"
+								 Icon="@Icons.Custom.FileFormats.FileCode"
+								 ToggledIcon="@Icons.Material.Filled.AssignmentInd" />
+		</MudTooltip>
+	</MudToolBar>
+
+	<MudTabs Position="Position.Bottom">
+		<MudTabPanel Text="Character Details" Icon="@Icons.Material.Filled.AssignmentInd">
+
+			<MudGrid Class="mb-2">
+				<MudItem xs="12">
+					<DescriptionComponent Player="player" />
+				</MudItem>
+
+				<MudItem xs="12" md="4">
+					<AttributesComponent Player="player" />
+				</MudItem>
+
+				<MudItem xs="12" sm="6" md="4">
+					<StatusComponent Player="player" />
+				</MudItem>
 
 
-    <MudItem xs="12" sm="6" md="4" Class="flex">
-        <WeaponSkillsComponent Player="player" />
-    </MudItem>
+				<MudItem xs="12" sm="6" md="4" Class="flex">
+					<WeaponSkillsComponent Player="player" />
+				</MudItem>
 
-    
-    <MudItem xs="12" sm="6">
-        <ItemsComponent Items="(player.Items)" />
-    </MudItem>
 
-    <MudItem xs="12" sm="6">
-        <SkillsComponent Player="player" />
-    </MudItem>
-    <MudItem xs="12" sm="6">
-        <AdvantagesComponent Player="player" />
-    </MudItem>
-</MudGrid>
+				<MudItem xs="12" sm="6">
+					<ItemsComponent Items="(player.Items)" />
+				</MudItem>
+
+				<MudItem xs="12" sm="6">
+					<SkillsComponent Player="player" />
+				</MudItem>
+				<MudItem xs="12" sm="6">
+					<AdvantagesComponent Player="player" />
+				</MudItem>
+			</MudGrid>
+		</MudTabPanel>
+
+		<MudTabPanel Text="Modifiers" Icon="@Icons.Custom.FileFormats.FileCode">
+			<div class="mb-2">
+				<ModifiersComponent CalculatedModifier="player.CalculatedModifiers"
+									CustomModifiers="player.CustomModifiers"
+									Skills="player.Skills.Select(d=>d.Name)" />
+			</div>
+		</MudTabPanel>
+	</MudTabs>
 }
 
 @code {
-    [Parameter]
-    public string Name { get; set; } = null!;
+	[Parameter]
+	public string Name { get; set; } = null!;
 
-    Player? player = null;
-    InputFile inputFile = null!;
+	Player? player = null;
+	InputFile inputFile = null!;
 
-    protected override async Task OnInitializedAsync()
-    {
-        player = await db.GetByKey<string, Player>(Name);
-    }
+	bool showModifiers = false;
 
-    async Task Delete()
-    {
-        var ensureResult = await diagService.ShowMessageBox($"Delete character '{player?.Name}'", "Are you sure? this action cannot be undone", "Delete", "Cancel");
-        if (ensureResult != true)
-            return;
+	protected override async Task OnInitializedAsync()
+	{
+		player = await db.GetByKey<string, Player>(Name);
+	}
 
-        var result = await db.DeleteByKey<string, Player>(Name);
-        db.SendCharacterListChanged();
-        snackbar.Add(result, Severity.Info);
-        logger.LogInformation(result);
-        Nav.NavigateTo("/");
-    }
+	async Task Delete()
+	{
+		var ensureResult = await diagService.ShowMessageBox($"Delete character '{player?.Name}'", "Are you sure? this action cannot be undone", "Delete", "Cancel");
+		if (ensureResult != true)
+			return;
 
-    async Task Export()
-    {
-        var str = JsonSerializer.Serialize(player, jOptions);
-        using var ms = new MemoryStream();
-        using var streamWriter = new StreamWriter(ms, System.Text.Encoding.UTF8);
-        await streamWriter.WriteAsync(str);
-        await streamWriter.FlushAsync();
-        ms.Position = 0;
-        using var reference = new DotNetStreamReference(ms);
-        await js.InvokeVoidAsync("downloadFileFromStream", $"{player!.Name}.json", reference);
-    }
+		var result = await db.DeleteByKey<string, Player>(Name);
+		db.SendCharacterListChanged();
+		snackbar.Add(result, Severity.Info);
+		logger.LogInformation(result);
+		Nav.NavigateTo("/");
+	}
 
-    async Task Import(IBrowserFile file)
-    {
-        var player = await JsonSerializer.DeserializeAsync<Player>(file.OpenReadStream(), jOptions);
-        this.player = player;
-        snackbar.Add("file successfully imported", Severity.Success);
-    }
+	async Task Export()
+	{
+		var str = JsonSerializer.Serialize(player, jOptions);
+		using var ms = new MemoryStream();
+		using var streamWriter = new StreamWriter(ms, System.Text.Encoding.UTF8);
+		await streamWriter.WriteAsync(str);
+		await streamWriter.FlushAsync();
+		ms.Position = 0;
+		using var reference = new DotNetStreamReference(ms);
+		await js.InvokeVoidAsync("downloadFileFromStream", $"{player!.Name}.json", reference);
+	}
 
-    async Task Save()
-    {
-        if (player == null) return;
-        if (player.Name != Name)
-        {
-            await db.DeleteByKey<string, Player>(Name);
-            await db.AddItems([player]);
-        }
-        else
-        {
-            await db.UpdateItems([player]);
-        }
-        db.SendCharacterListChanged();
-        snackbar.Add("Saved", Severity.Success);
-    }
+	async Task Import(IBrowserFile file)
+	{
+		var player = await JsonSerializer.DeserializeAsync<Player>(file.OpenReadStream(), jOptions);
+		this.player = player;
+		snackbar.Add("file successfully imported", Severity.Success);
+	}
+
+	async Task Save()
+	{
+		if (player == null) return;
+		if (player.Name != Name)
+		{
+			await db.DeleteByKey<string, Player>(Name);
+			await db.AddItems([player]);
+		}
+		else
+		{
+			await db.UpdateItems([player]);
+		}
+		db.SendCharacterListChanged();
+		snackbar.Add("Saved", Severity.Success);
+	}
 }

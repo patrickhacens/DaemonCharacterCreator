@@ -10,7 +10,12 @@ public class PlayerSkill
     {
     }
 
-    public AttributeType? BasedAttribute { get; set; }
+	public PlayerSkill(string name)
+	{
+		Name=name;
+	}
+
+	public AttributeType? BasedAttribute { get; set; }
 
     public string Name { get; set; } = null!;
 
