@@ -21,7 +21,7 @@ public class PlayerSkill
 
     public string? Description { get; set; }
 
-    public int Value { get; set; }
+    public virtual int Value { get; set; }
 
     public int Total => Value + (BasedAttribute.HasValue ? player[BasedAttribute.Value].Total : 0) + Modifiers;
 
@@ -109,4 +109,5 @@ public class Skill(string Name, string? Description = null, AttributeType? Attri
     public string Name { get; set; } = Name;
     public string? Description { get; set; } = Description;
     public AttributeType? Attribute { get; set; } = Attribute;
+    public int Cost { get; set; }
 }

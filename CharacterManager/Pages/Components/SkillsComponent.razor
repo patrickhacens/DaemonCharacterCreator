@@ -1,5 +1,6 @@
 ﻿@using Daemon.Data
 @inject IDialogService diagService
+@inject DataService dataService
 
 @if (Player is null)
 {
@@ -90,10 +91,11 @@ else
 
     async Task AddSkill()
     {
+        var skills = await dataService.GetSkills();
         var diag = diagService.Show<AddSkillDialog>(null, new DialogParameters
         {
              { nameof(AddSkillDialog.CurrentSkillSet), Player.Skills.Select(d=>d.Name) },
-             { nameof(AddSkillDialog.DataSource), DaemonDb.Skills }
+             { nameof(AddSkillDialog.DataSource), skills }
         });
 
         var result = await diag.Result;

@@ -1,0 +1,17 @@
+﻿<MudPaper Class="pa-2">
+	@foreach (var item in GetActions())
+	{
+		
+	}
+</MudPaper>
+
+@code {
+	[Parameter]
+	public Player Player { get; set; } = null!;
+
+
+	public IEnumerable<string> GetActions()
+	{
+		return Enumerable.Empty<string>();
+	}
+}

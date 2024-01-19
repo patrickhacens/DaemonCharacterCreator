@@ -7,21 +7,12 @@ public static class DaemonDb
 
     static DaemonDb()
     {
-        Skills = [];
-        WeaponSkills = [];
         Advantages = [];
-        Skills.AddRange(GetSkills());
-        WeaponSkills.AddRange(GetWeaponSkills());
         Advantages.AddRange(GetAdvantages());
     }
 
     private static IEnumerable<Advantage> GetAdvantages()
     {
-        yield return new Advantage("Agarre com Cauda Aprimorado", 1)
-        {
-            Requirements = "apenas Nagas",
-            Description = "Quando usa sua cauda para manobras de combate, a naga ganha um bónus de +20% nos testes de Imobilização, Chaves de membros e Quebramentos.",
-        };
 
         yield return new Advantage("Ambidestria", 2)
         {
@@ -31,11 +22,6 @@ public static class DaemonDb
         yield return new Advantage("Arma de Família", 1)
         {
             Description = "As armas são parte da família. Personagens com esse Aprimoramento terão uma arma de família de qualidade superior (tipo de arma à sua escolha). Uma arma de qualidade superior oferece sempre +5% em todos os Testes de Ataque OU de Defesa, e +1 no dano final, mas não são consideradas mágicas. O Personagem jamais pode perder essa arma ou será como se tivesse perdido um ente querido."
-        };
-
-        yield return new Advantage("Armadura Imbativel", 1)
-        {
-            Description = "Se não estiver usando armadura média ou pesada o samurai pode adicionar um bónus de 30% a todas as suas jogadas de defesa, desde que esteja empunhando sua arma ancestral. Usar essa habilidade consome 1 ponto de magia e dura um combate."
         };
 
         yield return new Advantage("Ataque Bruto", 1)
@@ -503,49 +489,6 @@ public static class DaemonDb
         };
     }
 
-    private static IEnumerable<Skill> GetSkills()
-    {
-        var resourceStream = typeof(DaemonDb).Assembly.GetManifestResourceStream("Daemon.Resources.Skills.txt");
-        StreamReader sr = new StreamReader(resourceStream);
-        while (!sr.EndOfStream)
-        {
-            var line = sr.ReadLine()?.Trim();
-            if (String.IsNullOrWhiteSpace(line) || line.StartsWith('#'))
-                continue;
-
-            var data = line.Split(';');
-            string? description = data.Length > 2 ? data[2] : null;
-            AttributeType? attribute = null;
-            if (data.Length > 1 && Enum.TryParse<AttributeType>(data[1], out var attrParseResult))
-                attribute = attrParseResult;
-            var skill = new Skill(data[0], description, attribute);
-            yield return skill;
-        }
-    }
-
-    private static IEnumerable<Skill> GetWeaponSkills()
-    {
-        var resourceStream = typeof(DaemonDb).Assembly.GetManifestResourceStream("Daemon.Resources.WeaponSkills.txt");
-        StreamReader sr = new StreamReader(resourceStream);
-        while (!sr.EndOfStream)
-        {
-            var line = sr.ReadLine()?.Trim();
-            if (String.IsNullOrWhiteSpace(line) || line.StartsWith("#"))
-                continue;
-
-            var data = line.Split(';');
-            string? description = data.Length > 2 ? data[2] : null;
-            AttributeType? attribute = null;
-            if (data.Length > 1 && Enum.TryParse<AttributeType>(data[1], out var attrParseResult))
-                attribute = attrParseResult;
-            var skill = new Skill(data[0], description, attribute);
-            yield return skill;
-        }
-    }
-
-    public static List<Skill> Skills { get; set; }
-
-    public static List<Skill> WeaponSkills { get; set; }
 
     public static List<Advantage> Advantages { get; set; }
 }

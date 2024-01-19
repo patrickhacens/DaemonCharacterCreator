@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using CharacterManager;
+using CharacterManager.Services;
 using Daemon.Converters;
 using Daemon.Models;
 using DnetIndexedDb;
@@ -25,29 +26,31 @@ builder.Services.AddSingleton(ConfigureJOptions(new JsonSerializerOptions()));
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 builder.Services
-    .AddIndexedDbDatabase<Db>(options => options
-    .UseDatabase(new IndexedDbDatabaseModel
-    {
-        Name = "Daemon Character Manager",
-        Version = 2,
-        Stores = {
-            new IndexedDbStore
-            {
-                Name = nameof(Player),
-                Key = new IndexedDbStoreParameter
-                {
-                    AutoIncrement = false,
-                    KeyPath = nameof(Player.Name).ToLower(),
-                },
-                Indexes = []
-            }
-        }
-    }));
+	.AddIndexedDbDatabase<Db>(options => options
+	.UseDatabase(new IndexedDbDatabaseModel
+	{
+		Name = "Daemon Character Manager",
+		Version = 2,
+		Stores = {
+			new IndexedDbStore
+			{
+				Name = nameof(Player),
+				Key = new IndexedDbStoreParameter
+				{
+					AutoIncrement = false,
+					KeyPath = nameof(Player.Name).ToLower(),
+				},
+				Indexes = []
+			}
+		}
+	}));
 
 builder.Services.AddSingleton(d => new HttpClient()
 {
-    BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
+	BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
 });
+
+builder.Services.AddScoped<DataService>();
 
 
 var app = builder.Build();
@@ -62,30 +65,30 @@ await app.RunAsync();
 
 void UpdateJSRuntimeJserialize(IServiceProvider services)
 {
-    try
-    {
-        var jsRuntime = services.GetService<IJSRuntime>();
-        var prop = typeof(JSRuntime).GetProperty("JsonSerializerOptions", BindingFlags.NonPublic | BindingFlags.Instance);
-        JsonSerializerOptions options = (JsonSerializerOptions)Convert.ChangeType(prop!.GetValue(jsRuntime, null), typeof(JsonSerializerOptions))!;
-        ConfigureJOptions(options);
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"SOME ERROR: {ex}");
-    }
+	try
+	{
+		var jsRuntime = services.GetService<IJSRuntime>();
+		var prop = typeof(JSRuntime).GetProperty("JsonSerializerOptions", BindingFlags.NonPublic | BindingFlags.Instance);
+		JsonSerializerOptions options = (JsonSerializerOptions)Convert.ChangeType(prop!.GetValue(jsRuntime, null), typeof(JsonSerializerOptions))!;
+		ConfigureJOptions(options);
+	}
+	catch (Exception ex)
+	{
+		Console.WriteLine($"SOME ERROR: {ex}");
+	}
 }
 
 JsonSerializerOptions ConfigureJOptions(JsonSerializerOptions jOptions)
 {
-    jOptions.Converters.Add(new PlayerConverter());
-    //jOptions.Converters.Add(new SkillConverter());
-    //jOptions.Converters.Add(new AttributeConverter());
-    jOptions.Converters.Add(new JsonStringEnumConverter());
-    jOptions.TypeInfoResolver = new PlayerTypeResolver();
-    jOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-    jOptions.IgnoreReadOnlyProperties = true;
-    jOptions.WriteIndented = true;
-    jOptions.PropertyNameCaseInsensitive = true;
+	jOptions.Converters.Add(new PlayerConverter());
+	//jOptions.Converters.Add(new SkillConverter());
+	//jOptions.Converters.Add(new AttributeConverter());
+	jOptions.Converters.Add(new JsonStringEnumConverter());
+	jOptions.TypeInfoResolver = new PlayerTypeResolver();
+	jOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+	jOptions.IgnoreReadOnlyProperties = true;
+	jOptions.WriteIndented = true;
+	jOptions.PropertyNameCaseInsensitive = true;
 
-    return jOptions;
+	return jOptions;
 }
