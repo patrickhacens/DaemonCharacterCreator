@@ -1,0 +1,18 @@
+﻿@if (IsEmpty)
+{
+	<MudPaper Class="pa-2" Elevation="0">
+		<MudText Align="Align.Center">This list is empty</MudText>
+	</MudPaper>
+}
+else
+{
+	@ChildContent
+}
+
+@code {
+	[Parameter]
+	public bool IsEmpty { get; set; }
+
+	[Parameter]
+	public RenderFragment? ChildContent { get; set; }
+}

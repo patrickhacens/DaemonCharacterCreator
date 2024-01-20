@@ -18,7 +18,7 @@ public class DataService
 			IgnoreBlankLines =true,
 			HasHeaderRecord = true,
 			HeaderValidated = null,
-			MissingFieldFound = null,
+			//MissingFieldFound = null,
 			AllowComments = true,
 		};
 	}

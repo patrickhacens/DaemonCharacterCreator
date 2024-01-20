@@ -1,9 +1,44 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using CsvHelper;
+using CsvHelper.Configuration;
 using Daemon.Converters;
-using Daemon.Data;
 using Daemon.Models;
 using System.Text.Json;
-using System.Text.Json.Serialization.Metadata;
+
+
+
+
+var csvConfig = new CsvConfiguration(System.Globalization.CultureInfo.InvariantCulture)
+{
+	IgnoreBlankLines = true,
+	HasHeaderRecord = true,
+	//HeaderValidated = null,
+	//MissingFieldFound = null,
+	AllowComments = true,
+    Mode = CsvMode.RFC4180,
+};
+
+string csv = """
+Name,Description,Cost,Attribute
+Battoujutsu,"Você pode ao desembanhar a espada fazer um ataque ao mesmo tempo, + 2 de iniciativa",20,Strength
+Iaito,"Você pode desembanhar uma katana e fazer um ataque com 40% de bonus, + 4 de iniciativa, requer Battoujutsu",25,
+"Itto","Você defere um golpe de cima para baixo com uma katana usando sua defesa como bonus de ataque, você não poderá usar sua defesa até seu próximo turno",20,
+""";
+
+using StringReader r = new(csv);
+using CsvReader reader = new(r, csvConfig);
+
+reader.Read();
+reader.ReadHeader();
+reader.Read();
+
+var cost = reader.GetField<int>("Cost");
+//reader.GetRecordsAsync
+
+var skills = reader.GetRecords<Skill>().ToArray();
+
+
+
 
 JsonSerializerOptions jOptions = new()
 {

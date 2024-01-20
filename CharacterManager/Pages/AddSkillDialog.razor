@@ -1,4 +1,4 @@
-﻿<MudDialog>
+﻿<MudDialog Style="min-width:300px">
     <TitleContent>
         <MudStack Row AlignItems="AlignItems.Center">
 
@@ -42,10 +42,14 @@
                             <MudListItem Value="skill">
                                 <MudStack Row AlignItems="AlignItems.Center">
 
-                                     <MudText>@skill.Name</MudText>
-                                        @if (skill.Attribute.HasValue)
+                                    <MudText>@skill.Name</MudText>
+                                    @if (skill.Cost != 0)
                                     {
-                                        <MudChip Size="Size.Small" Color="Color.Primary">@skill.Attribute.Value.ToString()[..3].ToUpper()</MudChip>
+                                        <MudChip Size="Size.Small" Variant="Variant.Outlined" Color="Color.Tertiary">@skill.Cost</MudChip>
+                                    }
+                                    @if (skill.Attribute.HasValue)
+                                    {
+                                        <MudChip Size="Size.Small" Variant="Variant.Outlined" Color="Color.Primary">@skill.Attribute.Value.ToString()[..3].ToUpper()</MudChip>
 
                                     }
                                     @if (!String.IsNullOrWhiteSpace(skill.Description))

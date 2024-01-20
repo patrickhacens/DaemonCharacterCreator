@@ -15,15 +15,20 @@ public class Item
 	public virtual IEnumerable<IModifier> GetModifiers() => Enumerable.Empty<IModifier>();
 }
 
-public class Weapon : Item
+public class Equipment : Item
+{
+	public bool Equipped { get; set; }
+}
+
+public class Weapon : Equipment
 {
 	public Weapon()
 	{
 	}
 
-	public string Damage { get; set; } = null!;
+	public string? Damage { get; set; }
 
-	public string TwoHandedDamage { get; set; }
+	public string? TwoHandedDamage { get; set; }
 
 	public AttributeType? BonusAttribute { get; set; }
 
@@ -31,11 +36,12 @@ public class Weapon : Item
 
 	public int InitiativePenalty { get; set; }
 
-	public override IEnumerable<IModifier> GetModifiers() =>
-		[new Modifier<StatusType>(StatusType.Initiative, -InitiativePenalty) { Origin = $"Weapon: {Name}" }];
+	public override IEnumerable<IModifier> GetModifiers() => Equipped ?
+		[new Modifier<StatusType>(StatusType.Initiative, -InitiativePenalty) { Origin = $"Weapon: {Name}" }] :
+		Enumerable.Empty<IModifier>();
 }
 
-public class Armor : Item
+public class Armor : Equipment
 {
 	public Armor()
 	{
@@ -47,10 +53,10 @@ public class Armor : Item
 
 	public int AgiPenalty { get; set; }
 
-	public override IEnumerable<IModifier> GetModifiers() =>
+	public override IEnumerable<IModifier> GetModifiers() => Equipped ?
 	[
 		new Modifier<AttributeType>(AttributeType.Dexterity, -DexPenalty) { Origin = $"Armor: {Name}" },
 		new Modifier<AttributeType>(AttributeType.Agility, -AgiPenalty) { Origin = $"Armor: {Name}" },
 		new Modifier<StatusType>(StatusType.IP, IP) { Origin = $"Armor: {Name}" }
-	];
+	] : Enumerable.Empty<IModifier>();
 }

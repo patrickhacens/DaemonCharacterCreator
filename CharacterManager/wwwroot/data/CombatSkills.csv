@@ -1,4 +1,4 @@
-﻿Name,Description,Attribute,Cost
-Battoujutsu,"Você pode ao desembanhar a espada fazer um ataque ao mesmo tempo, + 2 de iniciativa",,20
-Iaito,"Você pode desembanhar uma katana e fazer um ataque com 40% de bonus, + 4 de iniciativa, requer Battoujutsu",,25
-Itto,"Você defere um golpe de cima para baixo com uma katana usando sua defesa como bonus de ataque, você não poderá usar sua defesa até seu próximo turno",,20
+﻿Name,Description,Cost,Attribute
+Battoujutsu,"Você pode ao desembanhar a espada fazer um ataque ao mesmo tempo, + 2 de iniciativa",20,
+Iaito,"Você pode desembanhar uma katana e fazer um ataque com 40% de bonus, + 4 de iniciativa, requer Battoujutsu",25,
+Itto,"Você defere um golpe de cima para baixo com uma katana usando sua defesa como bonus de ataque, você não poderá usar sua defesa até seu próximo turno",20,

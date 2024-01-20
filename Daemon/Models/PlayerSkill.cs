@@ -1,4 +1,7 @@
 ﻿using System.Collections;
+using System.ComponentModel;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace Daemon.Models;
 
@@ -32,11 +35,17 @@ public class PlayerSkill
 
     public virtual int TotalInvested => Value;
 
-    public class PlayerSkillCollection(Player player) : IList<PlayerSkill>
+    public class PlayerSkillCollection(Player player) : IList<PlayerSkill>, INotifyPropertyChanged
     {
         readonly List<PlayerSkill> innerData = [];
 
-        public PlayerSkill this[int index]
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		public int MaxSkillPoints => player.Level * 25 + player[AttributeType.Inteligence].BaseValue * 5 + player.Description.RealAge * 10;
+
+		public int UsedSkillPoints => innerData.Sum(d => d.TotalInvested);
+
+		public PlayerSkill this[int index]
         {
             get => ((IList<PlayerSkill>)innerData)[index];
             set
@@ -83,7 +92,7 @@ public class PlayerSkill
 
         public void Insert(int index, PlayerSkill item)
         {
-            item.player =player;
+            item.player = player;
             ((IList<PlayerSkill>)innerData).Insert(index, item);
         }
 
@@ -101,13 +110,15 @@ public class PlayerSkill
         {
             return ((IEnumerable)innerData).GetEnumerator();
         }
+        void OnNotifyPropertyChanged([CallerMemberName]string? propertyName = null)
+            => PropertyChanged?.Invoke(propertyName, new PropertyChangedEventArgs(propertyName));
     }
 }
 
-public class Skill(string Name, string? Description = null, AttributeType? Attribute = null)
+public class Skill(string Name, string? Description = null, AttributeType? Attribute = null, int? Cost = 0)
 {
     public string Name { get; set; } = Name;
     public string? Description { get; set; } = Description;
     public AttributeType? Attribute { get; set; } = Attribute;
-    public int Cost { get; set; }
+    public int Cost { get; set; } = Cost.HasValue ? Cost.Value : 0;
 }

@@ -1,0 +1,96 @@
+﻿@inject IDialogService dialogService;
+@inject DataService dataService;
+@inject ISnackbar snackbar;
+
+<MudStack Row="true" AlignItems="AlignItems.Center">
+	<MudText Typo="Typo.h6">Weapon Skills</MudText>
+	<MudSpacer />
+	<MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Add" OnClick="Add" />
+</MudStack>
+
+<EmptyComponent IsEmpty="!Skills.Any()">
+	<MudGrid Justify="Justify.Center" Spacing="0">
+		<MudItem xs="7">
+			<MudText><b>Skill Name</b></MudText>
+		</MudItem>
+
+		<MudItem xs="2">
+			<MudText><b>Atk</b></MudText>
+		</MudItem>
+
+		<MudItem xs="2">
+			<MudText><b>Def</b></MudText>
+		</MudItem>
+
+		<MudItem xs="1">
+		</MudItem>
+
+		@foreach (var skill in DataSource)
+		{
+			<MudItem xs="7" Class="d-flex align-center">
+				<MudText>@skill.Name</MudText>
+			</MudItem>
+
+			<MudItem xs="2">
+				<MudStack Spacing="0">
+					<MudInput InputType="InputType.Number" @bind-Value="skill.Value" Margin="Margin.Dense" />
+					<MudText>@skill.Total</MudText>
+				</MudStack>
+			</MudItem>
+
+			<MudItem xs="2">
+				<MudStack Spacing="0">
+					<MudInput InputType="InputType.Number" @bind-Value="skill.DefenseValue" Margin="Margin.Dense" />
+					<MudText>@skill.DefenseTotal</MudText>
+				</MudStack>
+			</MudItem>
+
+			<MudItem xs="1">
+				<MudStack Spacing="0" AlignItems="AlignItems.Center">
+					<MudIconButton Edge="Edge.End" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="async () => await Delete(skill)" />
+					@if (skill.BasedAttribute is not null)
+					{
+						<MudChip Style="font-size:10px" Size="Size.Small" Color="Color.Primary">@skill.BasedAttribute.Value.ToString()[..3].ToUpper()</MudChip>
+					}
+				</MudStack>
+			</MudItem>
+		}
+	</MudGrid>
+</EmptyComponent>
+
+
+@code {
+	[Parameter]
+	public PlayerSkill.PlayerSkillCollection Skills { get; set; } = null!;
+
+	IEnumerable<WeaponSkill> DataSource => Skills?.OfType<WeaponSkill>()?.OrderBy(d=>d.Name) ?? Enumerable.Empty<WeaponSkill>();
+
+	async Task Delete(WeaponSkill skill)
+	{
+		var ensure = await dialogService.ShowMessageBox($"Delete skill '{skill.Name}'", "Are you sure? this action can't be undone", "Delete", "Cancel");
+		if (ensure == true)
+			Skills.Remove(skill);
+	}
+
+	async Task Add()
+	{
+		var weapons = await dataService.GetWeaponSkills();
+		var dialog = dialogService.Show<AddSkillDialog>("", new DialogParameters
+		{
+			{ nameof(AddSkillDialog.CurrentSkillSet), Skills.Select(d=>d.Name) },
+			{ nameof(AddSkillDialog.DataSource), weapons }
+		});
+
+		var result = await dialog.Result;
+
+		if (!result.Canceled && result.Data is Skill skill)
+		{
+			Skills.Add(new WeaponSkill
+			{
+				BasedAttribute = skill.Attribute,
+				Description = skill.Description,
+				Name = skill.Name,
+			});
+		}
+	}
+}

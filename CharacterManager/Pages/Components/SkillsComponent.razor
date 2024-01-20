@@ -1,114 +1,15 @@
-﻿@using Daemon.Data
-@inject IDialogService diagService
-@inject DataService dataService
+﻿<MudPaper Class="pa-2">
 
-@if (Player is null)
-{
-    for (int i = 0; i < 4; i++)
-    {
-        <MudSkeleton SkeletonType="SkeletonType.Text" Animation="Animation.Pulse" />
-    }
-}
-else
-{
-    <MudPaper Class="pa-2">
-        <MudGrid Spacing="0">
-            <MudItem xs="12">
-                <MudStack Row AlignItems="AlignItems.Center">
-                     <MudText Typo="Typo.h6">Skills</MudText>
-                     <MudSpacer />
-                     <MudIconButton Icon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="AddSkill" />
-                 </MudStack>
-             </MudItem>
+	<WeaponSkillsList Skills="Skills" />
 
-             <MudItem xs="7">
-                 <MudText><b>Skill Name</b></MudText>
-             </MudItem>
+	<CombatSkillsList Skills="Skills" />
 
-             <MudItem xs="2">
-                 <MudText><b>Base</b></MudText>
-             </MudItem>
+	<SkillsList Skills="Skills" />
 
-             <MudItem xs="2">
-                 <MudText><b>Total</b></MudText>
-             </MudItem>
-             <MudItem xs="1">
-
-             </MudItem>
-
-            @foreach (var item in Player.Skills.Where(d=>d.GetType() != typeof(WeaponSkill)).OrderBy(d => d.Name))
-            {
-                <MudItem xs="7">
-                    <MudText>@item.Name</MudText>
-                    </MudItem>
-
-                <MudItem xs="2">
-                    <MudInput InputType="InputType.Number" @bind-Value="item.Value" Margin="Margin.Dense" />
-                </MudItem>
-
-                <MudItem xs="2">
-                    <MudTooltip>
-                        <ChildContent>
-                            <MudText>@item.Total</MudText>
-                        </ChildContent>
-                        <TooltipContent>
-                            <MudStack>
-                                <MudText>
-                                    @item.BasedAttribute?.ToString()[..3].ToUpper()
-                                </MudText>
-                                <MudText>
-                                    @item.Description
-                                </MudText>
-                            </MudStack>
-                        </TooltipContent>
-                    </MudTooltip>
-                </MudItem>
-
-                <MudItem xs="1">
-                    <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="async () => await Delete(item)" />
-                </MudItem>
-            }
-            <MudItem xs="12">
-                <MudText GutterBottom="false" Typo="Typo.overline">@Player.UsedSkillPoints / @Player.MaxSkillPoints</MudText>
-                </MudItem>
-            </MudGrid>
-        </MudPaper>
-}
+	<MudText GutterBottom="false" Typo="Typo.overline">@Skills.UsedSkillPoints / @Skills.MaxSkillPoints</MudText>
+</MudPaper>
 
 @code {
-    [Parameter]
-    public Player Player { get; set; } = null!;
-
-    async Task Delete(PlayerSkill skill)
-    {
-        var result = await diagService.ShowMessageBox($"Remove skill '{skill.Name}'", "Are you sure? You can't undo it", "Remove", "Cancel");
-        if (result == true)
-        {
-            Player.Skills.Remove(skill);
-            await InvokeAsync(StateHasChanged);
-        }
-    }
-
-    async Task AddSkill()
-    {
-        var skills = await dataService.GetSkills();
-        var diag = diagService.Show<AddSkillDialog>(null, new DialogParameters
-        {
-             { nameof(AddSkillDialog.CurrentSkillSet), Player.Skills.Select(d=>d.Name) },
-             { nameof(AddSkillDialog.DataSource), skills }
-        });
-
-        var result = await diag.Result;
-
-        if (!result.Canceled && result.Data is Skill skill)
-        {
-            Player.Skills.Add(new PlayerSkill
-            {
-                BasedAttribute = skill.Attribute,
-                Description = skill.Description!,
-                Name = skill.Name,
-                Value = 0
-            });
-        }
-    }
+	[Parameter]
+	public PlayerSkill.PlayerSkillCollection Skills { get; set; } = null!;
 }

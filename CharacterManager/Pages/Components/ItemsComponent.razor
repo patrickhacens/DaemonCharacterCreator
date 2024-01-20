@@ -23,12 +23,19 @@
 			{
 				<MudItem xs="12">
 					<MudText Typo="Typo.h6">@category.Key</MudText>
-					</MudItem>
+				</MudItem>
 				@foreach (var item in category)
 				{
 					<MudItem xs="8">
-						<MudText>@item.Name</MudText>
-						</MudItem>
+						@if(item is Equipment equip)
+						{
+							<MudCheckBox @bind-Value="equip.Equipped" Label="@item.Name" Size="Size.Small"/>
+						}
+						else
+						{
+							<MudText>@item.Name</MudText>
+						}
+					</MudItem>
 
 					<MudItem xs="3">
 						<MudText>@item.Weight.ToString("N2") kg</MudText>
