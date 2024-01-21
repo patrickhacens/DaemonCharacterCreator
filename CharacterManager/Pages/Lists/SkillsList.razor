@@ -21,7 +21,18 @@
 		@foreach (var item in Skills.Where(d => d.GetType() == typeof(PlayerSkill)).OrderBy(d => d.Name))
 		{
 			<MudItem xs="7">
-				<MudText>@item.Name</MudText>
+				<MudTooltip Text="@item.Description">
+					<ChildContent>
+						<MudText>
+							@item.Name
+							@if (item.BasedAttribute.HasValue)
+							{
+								<MudChip Variant="Variant.Outlined" Size="Size.Small">@item.BasedAttribute.Value.ToString()[..3].ToUpper()</MudChip>
+							}
+						</MudText>
+					</ChildContent>
+				</MudTooltip>
+
 			</MudItem>
 
 			<MudItem xs="2">
@@ -29,21 +40,7 @@
 			</MudItem>
 
 			<MudItem xs="2">
-				<MudTooltip>
-					<ChildContent>
-						<MudText>@item.Total</MudText>
-						</ChildContent>
-						<TooltipContent>
-							<MudStack>
-								<MudText>
-									@item.BasedAttribute?.ToString()[..3].ToUpper()
-							</MudText>
-							<MudText>
-								@item.Description
-							</MudText>
-						</MudStack>
-					</TooltipContent>
-				</MudTooltip>
+				<MudText>@item.Total</MudText>
 			</MudItem>
 
 			<MudItem xs="1" Class="d-flex flex-column align-center">

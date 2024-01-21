@@ -11,9 +11,11 @@
 	<DialogContent>
 		@if (custom)
 		{
-			<MudTextField @bind-Value="customAdvantage.Name" Label="Name" Required />
-			<MudTextField @bind-Value="customAdvantage.Description" Label="Description" />
-			<MudNumericField @bind-Value="customAdvantage.Cost" Label="Cost" Step="1" />
+			<MudForm @ref="form" Model="customAdvantage">
+				<MudTextField @bind-Value="customAdvantage.Name" Label="Name" Required="true" Immediate="true"/>
+				<MudTextField @bind-Value="customAdvantage.Description" Label="Description" Immediate="true" />
+				<MudNumericField @bind-Value="customAdvantage.Cost" Label="Cost" Step="1" Immediate="true"/>
+			</MudForm>
 		}
 		else
 		{
@@ -25,36 +27,30 @@
 				<MudSelectItem T="bool?" Value="true">Apenas positivos</MudSelectItem>
 				<MudSelectItem T="bool?" Value="false">Apenas negativos</MudSelectItem>
 			</MudSelect>
-			<div style="max-height:60vh;overflow:scroll">
-				@foreach (var item in Filtered)
-				{
 
-					<MudGrid Spacing="5">
-						<MudCard Outlined="true">
-							<MudCardContent>
-								<MudText Typo="Typo.h6">@item.Name</MudText>
-								<MudText Typo="Typo.body2">@item.Cost ponto(s)</MudText>
-								<MudText>@item.Description</MudText>
-								@if (!String.IsNullOrWhiteSpace(item.Requirements))
-								{
-									<MudText Typo="Typo.overline"><b>@item.Requirements</b></MudText>
-								}
-							</MudCardContent>
-							<MudCardActions>
-								<MudButton OnClick="() => Select(item)" StartIcon="@Icons.Material.Filled.Add">Add</MudButton>
-							</MudCardActions>
-						</MudCard>
-					</MudGrid>
-				}
+			<div style="max-height:60vh;overflow:scroll">
+
+				<MudListExtended Clickable="true"
+								 MultiSelection="true"
+								 @bind-SelectedValues="Selected"
+								 MultiSelectionComponent="MudExtensions.Enums.MultiSelectionComponent.None">
+
+					@foreach (var item in Filtered)
+					{
+
+						<MudListItemExtended Value="item"
+											 Text="@GetHeaderText(item)"
+											 SecondaryText="@GetDescriptionText(item)" />
+					}
+				</MudListExtended>
 			</div>
 		}
 	</DialogContent>
 
 	<DialogActions>
-		@if (custom)
-		{
-			<MudButton Color="Color.Primary" Disabled="String.IsNullOrEmpty(customAdvantage.Name)" OnClick="() => Select(customAdvantage)">Add</MudButton>
-		}
+		<MudButton Color="Color.Primary"
+				   Disabled="(custom && form?.IsValid == false) || (!custom && !Selected.Any())"
+				   OnClick="Add">Add</MudButton>
 		<MudButton OnClick="Instance.Cancel">Cancel</MudButton>
 	</DialogActions>
 </MudDialog>
@@ -64,6 +60,8 @@
 
 	Advantage customAdvantage = new();
 
+	MudForm form = null!;
+
 	[CascadingParameter]
 	public MudDialogInstance Instance { get; set; } = null!;
 
@@ -71,6 +69,7 @@
 	public IEnumerable<Advantage> DataSource { get; set; } = DaemonDb.Advantages.AsReadOnly();
 
 	IEnumerable<Advantage> Filtered = Enumerable.Empty<Advantage>();
+	IEnumerable<Advantage> Selected = Enumerable.Empty<Advantage>();
 
 	string? filter;
 
@@ -92,8 +91,23 @@
 		else if (filterPositiveNegative == false)
 			Filtered = Filtered.Where(d => d.Cost < 0);
 	}
-	void Select(Advantage advantage)
+	void Add()
 	{
-		Instance.Close(advantage);
+		if (custom)
+		{
+			form.Validate();
+			if (!form.IsValid) return;
+			Instance.Close<IEnumerable<Advantage>>([customAdvantage]);
+		}
+		else
+			Instance.Close(Selected);
+	}
+
+	string GetHeaderText(Advantage advantage) => $"{advantage.Name}: {advantage.Cost}";
+
+	string GetDescriptionText(Advantage advantage)
+	{
+		string?[] text = [advantage.Description, advantage.Requirements];
+		return String.Join(Environment.NewLine, text);
 	}
 }

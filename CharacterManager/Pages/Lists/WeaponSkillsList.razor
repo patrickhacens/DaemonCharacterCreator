@@ -28,31 +28,37 @@
 		@foreach (var skill in DataSource)
 		{
 			<MudItem xs="7" Class="d-flex align-center">
-				<MudText>@skill.Name</MudText>
-				</MudItem>
+				<MudTooltip Text="@skill.Description">
+					<MudText>
+						@skill.Name
+						@if (skill.BasedAttribute.HasValue)
+						{
+							<MudChip Size="Size.Small" Variant="Variant.Outlined">@skill.BasedAttribute.Value.ToString()[..3].ToUpper()</MudChip>
+						}
+					</MudText>
+				</MudTooltip>
+			</MudItem>
 
-			<MudItem xs="2">
-				<MudStack Spacing="0">
-					<MudInput InputType="InputType.Number" @bind-Value="skill.Value" Margin="Margin.Dense" />
-					<MudText>@skill.Total</MudText>
-					</MudStack>
-				</MudItem>
+			<MudItem xs="2" Style="padding-right:2px; align-self:center">
+				<MudInput InputType="InputType.Number"
+						  @bind-Value="skill.Value"
+						  Margin="Margin.Dense"
+						  Class="sameAdornmentBottom"
+						  Adornment="Adornment.End"
+						  AdornmentText="@($"/{skill.Total}")" />
+			</MudItem>
 
-			<MudItem xs="2">
-				<MudStack Spacing="0">
-					<MudInput InputType="InputType.Number" @bind-Value="skill.DefenseValue" Margin="Margin.Dense" />
-					<MudText>@skill.DefenseTotal</MudText>
-					</MudStack>
-				</MudItem>
+			<MudItem xs="2" Style="padding-left:2px; align-self:center">
+				<MudInput InputType="InputType.Number"
+						  @bind-Value="skill.DefenseValue"
+						  Margin="Margin.Dense"
+						  Class="sameAdornmentBottom"
+						  Adornment="Adornment.End"
+						  AdornmentText="@($"/{skill.DefenseTotal}")" />
+			</MudItem>
 
 			<MudItem xs="1">
-				<MudStack Spacing="0" AlignItems="AlignItems.Center">
-					<MudIconButton Edge="Edge.End" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="async () => await Delete(skill)" />
-					@if (skill.BasedAttribute is not null)
-					{
-						<MudChip Style="font-size:10px" Size="Size.Small" Color="Color.Primary">@skill.BasedAttribute.Value.ToString()[..3].ToUpper()</MudChip>
-					}
-				</MudStack>
+				<MudIconButton Edge="Edge.End" Icon="@Icons.Material.Filled.Delete" Color="Color.Error" Size="Size.Small" OnClick="async () => await Delete(skill)" />
 			</MudItem>
 		}
 	</MudGrid>
@@ -87,11 +93,11 @@
 		{
 			foreach (var skill in skillsToAdd)
 				Skills.Add(new WeaponSkill
-				{
-					BasedAttribute = skill.Attribute,
-					Description = skill.Description,
-					Name = skill.Name,
-				});
+					{
+						BasedAttribute = skill.Attribute,
+						Description = skill.Description,
+						Name = skill.Name,
+					});
 		}
 	}
 }

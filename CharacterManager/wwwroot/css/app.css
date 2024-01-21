@@ -108,3 +108,13 @@ code {
     font-family: Roboto, Helvetica;
     font-weight: 400;
 }
+
+input.sameAdornmentBottom {
+    padding: 0 0 0px!important;
+}
+
+div.sameAdornmentBottom > div.sameAdornmentBottom{
+    margin-left: 0px!important;
+    margin-inline-start: 0px!important;
+    margin-inline-end: 0px!important;
+}

@@ -25,13 +25,12 @@
 		}
 		else
 		{
+
+			<MudTextField Label="Filter"
+							@bind-Value="filter"
+							OnDebounceIntervalElapsed="FilterSkills"
+							DebounceInterval="200" />
 			<div style="max-height:60vh;overflow:scroll">
-
-
-				<MudTextField Label="Filter"
-							  @bind-Value="filter"
-							  OnDebounceIntervalElapsed="FilterSkills"
-							  DebounceInterval="200" />
 				<MudListExtended T="Skill"
 								 MultiSelection="true"
 								 Clickable="true"
@@ -40,7 +39,7 @@
 								 MultiSelectionComponent="MudExtensions.Enums.MultiSelectionComponent.None"
 								 Style="max-height:60vh">
 
-
+								 
 					@foreach (var skill in SkillsFiltered)
 					{
 						<MudListItemExtended Value="skill"

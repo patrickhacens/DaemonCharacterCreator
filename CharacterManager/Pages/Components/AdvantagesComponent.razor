@@ -60,22 +60,23 @@ else
 
     async Task Add()
     {
-        var diag = DialogService.Show<AddAdvantagesDialog>(null, new DialogParameters
+        var dialog = DialogService.Show<AddAdvantagesDialog>(null, new DialogParameters
         {
 
         });
-        var result = await diag.Result;
-        if (!result.Canceled && result.Data is Advantage advantage)
-            Player.Advantages.Add(advantage);
+        var result = await dialog.Result;
+        if (!result.Canceled && result.Data is IEnumerable<Advantage> advantages)
+            foreach(var advantage in advantages)
+                Player.Advantages.Add(advantage);
     }
 
     async Task Open(Advantage item)
     {
-        var diag = DialogService.Show<AdvantageDialog>(null, new DialogParameters
+        var dialog = DialogService.Show<AdvantageDialog>(null, new DialogParameters
         {
             { nameof(AdvantageDialog.Advantage), item },
         });
-        var result = await diag.Result;
+        var result = await dialog.Result;
         if (!result.Canceled && result.Data is Advantage adv)
             Player.Advantages.Remove(item);
     }

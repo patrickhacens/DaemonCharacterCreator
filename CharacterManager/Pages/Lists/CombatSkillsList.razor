@@ -18,25 +18,13 @@
 		@foreach (var item in DataSource)
 		{
 			<MudItem xs="9">
-				<MudText>@item.Name</MudText>
+				<MudTooltip Text="@item.Description">
+					<MudText>@item.Name</MudText>
+				</MudTooltip>
 			</MudItem>
 
 			<MudItem xs="2">
-				<MudTooltip>
-					<ChildContent>
-						<MudText>@item.Total</MudText>
-						</ChildContent>
-						<TooltipContent>
-							<MudStack>
-								<MudText>
-									@item.BasedAttribute?.ToString()[..3].ToUpper()
-							</MudText>
-							<MudText>
-								@item.Description
-							</MudText>
-						</MudStack>
-					</TooltipContent>
-				</MudTooltip>
+				<MudText>@item.Total</MudText>
 			</MudItem>
 
 			<MudItem xs="1" Class="d-flex flex-column align-center">
