@@ -8,7 +8,7 @@
 	<MudIconButton Size="Size.Small" Icon="@Icons.Material.Filled.Add" OnClick="Add" />
 </MudStack>
 
-<EmptyComponent IsEmpty="!Skills.Any()">
+<EmptyComponent IsEmpty="!DataSource.Any()">
 	<MudGrid Justify="Justify.Center" Spacing="0">
 		<MudItem xs="7">
 			<MudText><b>Skill Name</b></MudText>
@@ -29,21 +29,21 @@
 		{
 			<MudItem xs="7" Class="d-flex align-center">
 				<MudText>@skill.Name</MudText>
-			</MudItem>
+				</MudItem>
 
 			<MudItem xs="2">
 				<MudStack Spacing="0">
 					<MudInput InputType="InputType.Number" @bind-Value="skill.Value" Margin="Margin.Dense" />
 					<MudText>@skill.Total</MudText>
-				</MudStack>
-			</MudItem>
+					</MudStack>
+				</MudItem>
 
 			<MudItem xs="2">
 				<MudStack Spacing="0">
 					<MudInput InputType="InputType.Number" @bind-Value="skill.DefenseValue" Margin="Margin.Dense" />
 					<MudText>@skill.DefenseTotal</MudText>
-				</MudStack>
-			</MudItem>
+					</MudStack>
+				</MudItem>
 
 			<MudItem xs="1">
 				<MudStack Spacing="0" AlignItems="AlignItems.Center">
@@ -63,7 +63,7 @@
 	[Parameter]
 	public PlayerSkill.PlayerSkillCollection Skills { get; set; } = null!;
 
-	IEnumerable<WeaponSkill> DataSource => Skills?.OfType<WeaponSkill>()?.OrderBy(d=>d.Name) ?? Enumerable.Empty<WeaponSkill>();
+	IEnumerable<WeaponSkill> DataSource => Skills?.OfType<WeaponSkill>()?.OrderBy(d => d.Name) ?? Enumerable.Empty<WeaponSkill>();
 
 	async Task Delete(WeaponSkill skill)
 	{
@@ -83,14 +83,15 @@
 
 		var result = await dialog.Result;
 
-		if (!result.Canceled && result.Data is Skill skill)
+		if (!result.Canceled && result.Data is IEnumerable<Skill> skillsToAdd)
 		{
-			Skills.Add(new WeaponSkill
-			{
-				BasedAttribute = skill.Attribute,
-				Description = skill.Description,
-				Name = skill.Name,
-			});
+			foreach (var skill in skillsToAdd)
+				Skills.Add(new WeaponSkill
+				{
+					BasedAttribute = skill.Attribute,
+					Description = skill.Description,
+					Name = skill.Name,
+				});
 		}
 	}
 }

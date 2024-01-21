@@ -74,16 +74,17 @@
 
 		var result = await dialog.Result;
 
-		if (!result.Canceled && result.Data is Skill skill)
+		if (!result.Canceled && result.Data is IEnumerable<Skill> skillsToAdd)
 		{
-			Skills.Add(new CombatSkill
-			{
-				BasedAttribute = skill.Attribute,
-				Description = skill.Description!,
-				Name = skill.Name,
-				Cost = skill.Cost
-			});
-			snackbar.Add("Skill added", Severity.Success);
+			foreach(var skill in skillsToAdd)
+				Skills.Add(new CombatSkill
+				{
+					BasedAttribute = skill.Attribute,
+					Description = skill.Description!,
+					Name = skill.Name,
+					Cost = skill.Cost
+				});
+			snackbar.Add("Skill(s) added", Severity.Success);
 		}
 	}
 
