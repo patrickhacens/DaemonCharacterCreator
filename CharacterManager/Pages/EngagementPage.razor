@@ -1,0 +1,42 @@
+﻿@page "/engagement"
+@inject Db db;
+
+<PageTitle>Engagements</PageTitle>
+
+<MudText Typo="Typo.h4">Engagements</MudText>
+
+<MudDropContainer T="Player"
+	Items="AvailablePlayers"
+				  ItemsSelector="@((item, dropZone) => dropZone == "available" || SelectedPlayers.Contains(item))"
+				  ItemDropped="ItemUpdated"
+				  Class="d-flex flex-wrap flex-grow-1">
+	<ChildContent>
+		<MudDropZone T="Player" Identifier="available" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
+			<MudText Typo="Typo.h6" Class="mb-4">Drop Zone 1</MudText>
+		</MudDropZone>
+		<MudDropZone T="Player" Identifier="selected" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
+			<MudText Typo="Typo.h6" Class="mb-4">Drop Zone 2</MudText>
+		</MudDropZone>
+	</ChildContent>
+	<ItemRenderer>
+		<MudPaper Elevation="25" Class="pa-4 my-4">@context.Name</MudPaper>
+		</ItemRenderer>
+	</MudDropContainer>
+
+	@code {
+
+	List<Player> AvailablePlayers { get; set; } = new();
+
+	List<Player> SelectedPlayers = new();
+
+	protected override async Task OnInitializedAsync()
+	{
+		AvailablePlayers = await db.GetAll<Player>();
+	}
+
+	private void ItemUpdated(MudItemDropInfo<Player> dropItem)
+	{
+		SelectedPlayers.Add(dropItem.Item!);
+	}
+
+}

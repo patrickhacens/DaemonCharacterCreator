@@ -19,9 +19,9 @@
 	<MudDrawer @bind-Open="drawerOpen" ClipMode="DrawerClipMode.Always">
 		<MudNavMenu>
 			<MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.PersonAdd">Create character</MudNavLink>
-
+			<MudNavLink Href="/engagement" Match="NavLinkMatch.All" Icon="@ExtraIcon.Swords">Engagement</MudNavLink>
 			<MudNavGroup Title="Characters" Expanded Icon="@Icons.Material.Filled.Group">
-					@if (!players.Any())
+				@if (!players.Any())
 				{
 					<MudNavLink Href="/new" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Person">It's empty here, create a new one</MudNavLink>
 				}

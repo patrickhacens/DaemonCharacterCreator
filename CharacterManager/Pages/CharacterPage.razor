@@ -97,7 +97,7 @@
 
 	bool showModifiers = false;
 
-	protected override async Task OnInitializedAsync()
+	protected override async Task OnParametersSetAsync()
 	{
 		player = await db.GetByKey<string, Player>(Name);
 	}
