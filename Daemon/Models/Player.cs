@@ -33,7 +33,15 @@ public class Player
 			new Status(StatusType.Initiative, p => p[AttributeType.Agility].Total + GetModifiersFor(StatusType.Initiative)),
 			new Status(StatusType.Movement, p => p[AttributeType.Agility].Total + GetModifiersFor(StatusType.Movement)),
 			new Status(StatusType.Run, p => p[AttributeType.Constitution].Total * 3 +  GetModifiersFor(StatusType.Run)),
-			new Status(StatusType.Action, p => (int)Math.Ceiling(p[AttributeType.Agility].Total / 20d) + GetModifiersFor(StatusType.Action))
+			new Status(StatusType.Action, p => (int)Math.Ceiling(p[AttributeType.Agility].Total / 20d) + GetModifiersFor(StatusType.Action)),
+			new Status(StatusType.DmgBonus, p => p[AttributeType.Strength].Total switch
+			{
+				1 or 2 => -3,
+				3 or 4 => -2,
+				4 or 6 or 7 or 8 => -1,
+				9 or 10 or 11 or 12 => 0,
+				_ => (int)Math.Floor((p[AttributeType.Strength].Total - 13) / 2d)
+			} + GetModifiersFor(StatusType.DmgBonus))
 		};
 
 		Skills = new(this);
@@ -97,4 +105,47 @@ public class Player
 		.OfType<Modifier<T>>()
 		.Where(d => d.ModificationTarget!.Equals(target))
 		.Sum(d => d.Value);
+
+	public IEnumerable<PlayerAction> GetActions()
+	{
+		yield return new($"Walk",$"{this[StatusType.Movement].Value} meters");
+		yield return new($"Run", $"{this[StatusType.Run].Value} meters and give up dodge");
+		yield return new("Interact with an object", "Some objects may take more actions");
+		yield return new("Communicate");
+		yield return new("Use a skill", "Some skill might take more actions");
+		var taijutsu = GetSkill<WeaponSkill>("Taijutsu", AttributeType.Dexterity);
+		var bonus = this[StatusType.DmgBonus].Value;
+		yield return new($"Fight barehand", $"{taijutsu.Total} / {taijutsu.DefenseTotal} 1d3+{bonus}");
+		foreach (var weapon in Items.OfType<Weapon>().Where(d => d.Equipped))
+		{
+			var skill = GetSkill<WeaponSkill>(weapon.Skill!, AttributeType.Dexterity);
+			string str = "";
+			if (!String.IsNullOrEmpty(weapon.Damage))
+				str += $"{Environment.NewLine}One-handed {weapon.Damage}+{bonus}";
+
+			if (!String.IsNullOrEmpty(weapon.TwoHandedDamage))
+				str+= $"{Environment.NewLine}Two-handed {weapon.TwoHandedDamage}+{bonus}";
+			yield return new($"{weapon.Name} {skill.Total} / {skill.DefenseTotal}:", str);
+		}
+	}
+
+	T GetSkill<T>(string name, AttributeType? basedAttribute = null) where T : PlayerSkill, new()
+	{
+		T? skill = Skills.OfType<T>()
+			.Where(d => d.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))
+			.MaxBy(d => d.TotalInvested);
+		if (skill == null)
+		{
+			int bonus = basedAttribute.HasValue ? this[basedAttribute.Value].Total : 0;
+			skill = new T()
+			{
+				Name = name,
+				Value = bonus,
+			};
+			if (skill is WeaponSkill ws)
+				ws.DefenseValue = bonus;
+		};
+
+		return skill;
+	}
 }

@@ -1,17 +1,15 @@
-﻿<MudPaper Class="pa-2">
-	@foreach (var item in GetActions())
-	{
-		
-	}
+﻿<MudPaper Class="pt-2">
+
+	<MudText Typo="Typo.h6" Class="ml-2 mt-2">Actions</MudText>
+	<MudListExtended T="string" Dense="true" DisableGutters="true" DisablePadding="true">
+		@foreach (var action in Player.GetActions())
+		{
+			<MudListItemExtended T="string" Text="@action.Name" SecondaryText="@action.Info"/>
+		}
+	</MudListExtended>
 </MudPaper>
 
 @code {
 	[Parameter]
 	public Player Player { get; set; } = null!;
-
-
-	public IEnumerable<string> GetActions()
-	{
-		return Enumerable.Empty<string>();
-	}
 }

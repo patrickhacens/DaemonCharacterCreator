@@ -14,5 +14,6 @@ public enum StatusType
     Initiative,
     Movement,
     Run,
-    Action
+    Action,
+    DmgBonus
 }

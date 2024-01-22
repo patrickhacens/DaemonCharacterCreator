@@ -1,15 +1,18 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Daemon.Models;
 
-public class Status
+public class Status: INotifyPropertyChanged
 {
     private Player player;
     private readonly Func<Player, int> calculationExpression;
     private int initialValue;
 
-    public Status()
+	public event PropertyChangedEventHandler? PropertyChanged;
+
+	public Status()
     {
 
     }
