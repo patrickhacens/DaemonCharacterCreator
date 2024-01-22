@@ -7,11 +7,10 @@
 @inject NavigationManager Nav;
 @inject JsonSerializerOptions jOptions;
 @inject IJSRuntime js;
-@inject IDialogService diagService;
+@inject IDialogService dialogService;
 
 @if (player != null)
 {
-
 	<MudToolBar Dense="true" DisableGutters>
 		<MudTooltip Text="Save">
 			<MudIconButton Icon="@Icons.Material.Filled.Save"
@@ -104,7 +103,7 @@
 
 	async Task Delete()
 	{
-		var ensureResult = await diagService.ShowMessageBox($"Delete character '{player?.Name}'", "Are you sure? this action cannot be undone", "Delete", "Cancel");
+		var ensureResult = await dialogService.ShowMessageBox($"Delete character '{player?.Name}'", "Are you sure? this action cannot be undone", "Delete", "Cancel");
 		if (ensureResult != true)
 			return;
 

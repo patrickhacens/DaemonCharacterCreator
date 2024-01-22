@@ -34,7 +34,7 @@
 			else
 			{
 				<MudTextField @bind-Value="filter" Label="Filter" DebounceInterval="200" OnDebounceIntervalElapsed="Filter" />
-				<div style="max-height:80vh">
+				<div style="max-height:60vh; overflow:scroll">
 					<MudStack>
 						@foreach (var item in Items)
 						{
