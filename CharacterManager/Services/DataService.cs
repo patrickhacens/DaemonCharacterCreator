@@ -58,6 +58,12 @@ public class DataService
 	public Task<Skill[]> GetCombatSkills(CancellationToken cancellation = default)
 		=> GetData<Skill>("CombatSkills", cancellation);
 
+	public async Task<IEnumerable<Skill>> GetAllSkills(CancellationToken cancellation = default)
+	{
+		var results = await Task.WhenAll<Skill[]>([GetSkills(cancellation), GetWeaponSkills(cancellation), GetCombatSkills(cancellation)]);
+		return results.SelectMany(d=>d).ToArray();
+	}
+
 	public Task<Armor[]> GetArmors(CancellationToken cancellation = default)
 		=> GetData<Armor>("Armors", cancellation);
 

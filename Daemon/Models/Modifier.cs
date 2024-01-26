@@ -20,6 +20,11 @@ public class Modifier<T> : IModifier
 
 	public int Value { get; set; }
 
+	public IModifier Duplicate() => new Modifier<T>(ModificationTarget, Value)
+	{
+		Origin = Origin
+	};
+
 	public string GetTargetDescription() => ModificationTarget is PlayerSkill skill ? $"Skill {skill.Name}" : ModificationTarget?.ToString() ?? String.Empty;
 }
 
@@ -27,6 +32,6 @@ public interface IModifier
 {
 	int Value { get; set; }
 	string? Origin { get; set; }
-
+	IModifier Duplicate();
 	string GetTargetDescription();
 }

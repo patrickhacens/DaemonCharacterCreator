@@ -11,6 +11,7 @@ using Microsoft.JSInterop;
 using MudBlazor.Services;
 using MudExtensions.Services;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

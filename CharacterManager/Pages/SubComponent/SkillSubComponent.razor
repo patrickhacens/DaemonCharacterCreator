@@ -1,0 +1,26 @@
+﻿@if (Skill is WeaponSkill ws)
+{
+	<MudStack Row="true" Spacing="0">
+		<MudNumericField Label="@ws.Name"
+						 Style="max-width:60px"
+						 Value="Skill.Total"
+						 ReadOnly="true" />
+
+		<MudNumericField Label="@ws.Name"
+						 Style="max-width:60px"
+						 Value="ws.DefenseTotal"
+						 ReadOnly="true" />
+	</MudStack>
+}
+else
+{
+	<MudNumericField Label="@Skill.Name"
+					 Style="max-width:60px"
+					 Value="Skill.Total"
+					 ReadOnly="true" />
+}
+
+@code {
+	[Parameter]
+	public PlayerSkill Skill { get; set; } = null!;
+}

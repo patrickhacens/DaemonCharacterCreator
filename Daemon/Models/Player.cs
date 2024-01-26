@@ -22,14 +22,15 @@ public class Player
 
 		Status = new(this)
 		{
-			new Status(StatusType.MaxHP, p => (int)Math.Ceiling(p[AttributeType.Strength].Total + p[AttributeType.Constitution].Total / 2d) + p[StatusType.Level].Value + GetModifiersFor(StatusType.HP)),
-			new Status(StatusType.HP, 0),
-			new Status(StatusType.Inspiration, 0),
-			new Status(StatusType.Magic, 0),
-			new Status(StatusType.Focus, 0),
 			new Status(StatusType.Level, 1),
 			new Status(StatusType.IP, p => GetModifiersFor(StatusType.IP)),
+			new Status(StatusType.Magic, 0),
 			new Status(StatusType.XP, 0),
+			new Status(StatusType.HP, 0),
+			new Status(StatusType.MaxHP, p => (int)Math.Ceiling(p[AttributeType.Strength].Total + p[AttributeType.Constitution].Total / 2d) + p[StatusType.Level].Value + GetModifiersFor(StatusType.HP)),
+			new Status(StatusType.Focus, 0),
+			new Status(StatusType.Inspiration, 0),
+			new Status(StatusType.Faith, 0),
 			new Status(StatusType.Initiative, p => p[AttributeType.Agility].Total + GetModifiersFor(StatusType.Initiative)),
 			new Status(StatusType.Movement, p => p[AttributeType.Agility].Total + GetModifiersFor(StatusType.Movement)),
 			new Status(StatusType.Run, p => p[AttributeType.Constitution].Total * 3 +  GetModifiersFor(StatusType.Run)),
@@ -108,7 +109,7 @@ public class Player
 
 	public IEnumerable<PlayerAction> GetActions()
 	{
-		yield return new($"Walk",$"{this[StatusType.Movement].Value} meters");
+		yield return new($"Walk", $"{this[StatusType.Movement].Value} meters");
 		yield return new($"Run", $"{this[StatusType.Run].Value} meters and give up dodge");
 		yield return new("Interact with an object", "Some objects may take more actions");
 		yield return new("Communicate");
@@ -129,7 +130,36 @@ public class Player
 		}
 	}
 
-	T GetSkill<T>(string name, AttributeType? basedAttribute = null) where T : PlayerSkill, new()
+	public Player Duplicate()
+	{
+		Player copy = new()
+		{
+			Description = this.Description.Duplicate(),
+			Name = this.Name,
+			Profession = this.Profession,
+		};
+		foreach (var adv in this.Advantages)
+			copy.Advantages.Add(adv.Duplicate());
+
+		foreach (var attr in this.Attributes)
+			copy[attr.Type].BaseValue = attr.BaseValue;
+
+		foreach (var mod in this.CustomModifiers)
+			copy.CustomModifiers.Add(mod.Duplicate());
+
+		foreach (var item in this.Items)
+			copy.Items.Add(item.Duplicate());
+
+		foreach (var skill in this.Skills)
+			copy.Skills.Add(skill);
+
+		foreach (var st in this.Status)
+			copy[st.Type].Value = st.Value;
+
+		return copy;
+	}
+
+	public T GetSkill<T>(string name, AttributeType? basedAttribute = null) where T : PlayerSkill, new()
 	{
 		T? skill = Skills.OfType<T>()
 			.Where(d => d.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))

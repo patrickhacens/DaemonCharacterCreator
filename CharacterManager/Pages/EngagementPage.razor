@@ -1,42 +1,217 @@
 ﻿@page "/engagement"
+@layout EngagementLayout
+
+
+@using Blazored.LocalStorage
+@using System.Text.Json
+@using System.Security.Cryptography
 @inject Db db;
+@inject DataService dataService;
+@inject ILocalStorageService localStore;
+@inject ISnackbar snackbar;
 
 <PageTitle>Engagements</PageTitle>
 
 <MudText Typo="Typo.h4">Engagements</MudText>
 
-<MudDropContainer T="Player"
-	Items="AvailablePlayers"
-				  ItemsSelector="@((item, dropZone) => dropZone == "available" || SelectedPlayers.Contains(item))"
-				  ItemDropped="ItemUpdated"
-				  Class="d-flex flex-wrap flex-grow-1">
-	<ChildContent>
-		<MudDropZone T="Player" Identifier="available" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
-			<MudText Typo="Typo.h6" Class="mb-4">Drop Zone 1</MudText>
-		</MudDropZone>
-		<MudDropZone T="Player" Identifier="selected" Class="rounded mud-background-gray pa-6 ma-8 flex-grow-1">
-			<MudText Typo="Typo.h6" Class="mb-4">Drop Zone 2</MudText>
-		</MudDropZone>
-	</ChildContent>
-	<ItemRenderer>
-		<MudPaper Elevation="25" Class="pa-4 my-4">@context.Name</MudPaper>
-		</ItemRenderer>
-	</MudDropContainer>
+<MudGrid>
+	<MudItem md="2">
+		<MudPaper>
+			<MudList Clickable="true" Dense="true">
+				<MudListSubheader>
+					<MudText Typo="Typo.subtitle1">Available characters</MudText>
+				</MudListSubheader>
+				@foreach (var character in AvailableCharacters)
+				{
+					<MudListItem Text="@($"{character.Name} - Lv {character.Level}")" OnClick="() => Add(character)" />
+				}
+			</MudList>
+		</MudPaper>
+	</MudItem>
 
-	@code {
+	<MudItem xs="10">
 
-	List<Player> AvailablePlayers { get; set; } = new();
+		<MudExpansionPanel Text="Filters">
 
-	List<Player> SelectedPlayers = new();
+			<MudGrid>
+				<MudItem xs="4">
+					<MudSelect T="StatusType"
+							   MultiSelection="true"
+							   Label="Stats"
+							   @bind-SelectedValues="showStats"
+							   MultiSelectionTextFunc="e => e.Count.ToString()">
+						@foreach (var stat in Enum.GetValues<StatusType>())
+						{
+							<MudSelectItem Value="stat">@stat.ToString()</MudSelectItem>
+						}
+					</MudSelect>
+				</MudItem>
 
-	protected override async Task OnInitializedAsync()
+				<MudItem xs="4">
+					<MudSelectExtended T="JsonSkill"
+									   SearchBox="true"
+									   SearchFunc="(skill,searchString) => skill.Name.ToLower().Contains(searchString.ToLower())"
+									   ToStringFunc="e => e.Name"
+									   ItemCollection="availableSkills"
+									   MultiSelection="true"
+									   MultiSelectionTextFunc="e => e.Count.ToString()"
+									   @bind-SelectedValues="showSkills"
+									   Label="Skills">
+					</MudSelectExtended>
+				</MudItem>
+				<MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="SaveFilter" />
+			</MudGrid>
+		</MudExpansionPanel>
+
+		<MudPaper Class="pa-2">
+			<MudStack>
+				<MudToolBar>
+					<MudText Typo="Typo.subtitle1">Engaged characters</MudText>
+					<MudIconButton Icon="@ExtraIcon.Dice" Size="Size.Small" OnClick="ProcessInitiative" />
+				</MudToolBar>
+				@if (Selected.Any())
+				{
+					@foreach (var item in Selected.OrderByDescending(d=>d.Initiative))
+					{
+						<MudGrid Class="pa-2 mb-2">
+							<MudItem xs="12">
+								<MudStack Row="true" AlignItems="AlignItems.Center">
+
+									<MudToggleIconButton @bind-Toggled="item.Collapsed"
+														 Icon="@Icons.Material.Filled.Visibility"
+														 ToggledIcon="@Icons.Material.Filled.VisibilityOff"
+														 ToggledSize="Size.Small"
+														 Size="Size.Small" />
+									<MudTextField Label="@($"Character - {item.Character.Name}")"
+												  @bind-Value="item.Character.Name" />
+									<MudNumericField Label="Current initiative"
+													 @bind-Value="item.Initiative" />
+									<MudSpacer />
+									<MudIconButton Size="Size.Small" Color="Color.Error" Icon="@Icons.Material.Filled.Delete" OnClick="() => Selected.Remove(item)" />
+								</MudStack>
+							</MudItem>
+
+							<MudItem xs="12">
+								<MudCollapse Expanded="item.Collapsed">
+									<MudGrid Spacing="1">
+										@foreach (var st in showStats)
+										{
+											<MudItem>
+
+												<MudNumericField Label="@st.ToString()"
+																 Style="max-width:60px"
+																 @bind-Value="item.Character[st].Value"
+																 ReadOnly="item.Character[st].IsReadOnly()" />
+											</MudItem>
+										}
+										@foreach (var skill in showSkills)
+										{
+											<MudItem>
+												<SkillSubComponent Skill="item.Character.GetSkill<PlayerSkill>(skill.Name, skill.Attribute)" />
+											</MudItem>
+										}
+										<MudItem xs="12"></MudItem>
+
+										@foreach (var skill in item.Character.Skills.OfType<WeaponSkill>().Where(d => item.Character.Items.OfType<Weapon>().Where(d => d.Equipped).Select(d => d.Skill).Contains(d.Name)))
+										{
+											<MudItem>
+												<MudStack Row="true" Spacing="0">
+													<MudNumericField Style="max-width:140px"
+																	 Label="@skill.Name"
+																	 Value="skill.Total"
+																	 ReadOnly="true" />
+													<MudNumericField Style="max-width:60px"
+																	 Label="Defense"
+																	 Value="skill.DefenseTotal"
+																	 ReadOnly="true" />
+												</MudStack>
+											</MudItem>
+										}
+										<MudDivider />
+										@foreach (var item in item.Character.Items.OfType<Equipment>())
+										{
+											<MudCheckBox Label="@item.Name" @bind-Value="item.Equipped" Size="Size.Small" />
+										}
+									</MudGrid>
+								</MudCollapse>
+							</MudItem>
+						</MudGrid>
+
+					}
+				}
+				else
+				{
+					<MudText Style="height:200px" Align="Align.Center">
+						There are no Engaged characters drag some here
+					</MudText>
+				}
+			</MudStack>
+		</MudPaper>
+	</MudItem>
+</MudGrid>
+
+@code {
+
+    List<Player> AvailableCharacters { get; set; } = new();
+
+    List<Collapsible> Selected = new();
+
+    string? skillFilter;
+
+    List<JsonSkill> availableSkills = [];
+    IEnumerable<StatusType> showStats = Enumerable.Empty<StatusType>();
+    IEnumerable<JsonSkill> showSkills = Enumerable.Empty<JsonSkill>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        AvailableCharacters = await db.GetAll<Player>();
+        var skills = await dataService.GetAllSkills();
+        availableSkills.AddRange(skills.Select(d => new JsonSkill(d.Name, d.Attribute)).ToArray());
+        showStats = await localStore.GetItemAsync<IEnumerable<StatusType>>(nameof(showStats));
+        showSkills = await localStore.GetItemAsync<IEnumerable<JsonSkill>>(nameof(showSkills));
+    }
+
+    void Add(Player character)
+    {
+        var collapsible = new Collapsible(character.Duplicate());
+        Selected.Add(collapsible);
+    }
+
+    async Task SaveFilter()
+    {
+        await localStore.SetItemAsync(nameof(showStats), showStats);
+        await localStore.SetItemAsync(nameof(showSkills), showSkills);
+        snackbar.Add("Filter saved", Severity.Success);
+    }
+
+	void ProcessInitiative()
 	{
-		AvailablePlayers = await db.GetAll<Player>();
+		foreach (var item in Selected)
+		{
+			item.Initiative = item.Character[StatusType.Initiative].Value + RandomNumberGenerator.GetInt32(1 , 7);
+		}
 	}
 
-	private void ItemUpdated(MudItemDropInfo<Player> dropItem)
-	{
-		SelectedPlayers.Add(dropItem.Item!);
-	}
+    class Collapsible(Player character)
+    {
+        public Player Character { get; set; } = character;
+        public bool Collapsed { get; set; } = true;
+        public int Initiative { get; set; }
+    }
+    struct JsonSkill
+    {
+        public JsonSkill()
+        {
+        }
 
+        public JsonSkill(string name, AttributeType? attribute)
+        {
+            Name=name;
+            Attribute=attribute;
+        }
+
+        public string? Name { get; set; }
+
+		public AttributeType? Attribute { get; set; }
+	}
 }
