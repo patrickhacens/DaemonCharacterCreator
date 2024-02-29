@@ -33,16 +33,18 @@ public class Status: INotifyPropertyChanged
 
     public int Value
     {
-        get => (IsReadOnly() ? calculationExpression(player) : initialValue) + (player?
-            .Modifiers
-            .OfType<Modifier<StatusType>>()
-            .Where(d => d.ModificationTarget == Type)
-            .Sum(d => d.Value) ?? 0);
+        get => (IsReadOnly() ? (calculationExpression(player) + Modifiers) : initialValue);
         set
         {
             initialValue = value;
         }
     }
+
+    public int Modifiers => player?
+        .Modifiers?
+        .OfType<Modifier<StatusType>>()?
+        .Where(d => d.ModificationTarget == Type)
+        .Sum(d => d.Value) ?? 0;
 
     public bool IsReadOnly() => calculationExpression != null;
 

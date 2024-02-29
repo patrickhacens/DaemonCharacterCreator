@@ -52,11 +52,17 @@ public class Weapon : Equipment
 
 	public AttributeType? BonusAttribute { get; set; }
 
-	public string? Skill { get; set; }
+    public int Critic { get; set; }
+
+    public int CriticMultiplier { get; set; }
+
+    public string? Skill { get; set; }
 
 	public int InitiativePenalty { get; set; }
 
-	public override IEnumerable<IModifier> GetModifiers() => Equipped ?
+    public int Range { get; set; }
+
+    public override IEnumerable<IModifier> GetModifiers() => Equipped ?
 		[new Modifier<StatusType>(StatusType.Initiative, -InitiativePenalty) { Origin = $"Weapon: {Name}" }] :
 		Enumerable.Empty<IModifier>();
 
@@ -69,6 +75,8 @@ public class Weapon : Equipment
 		item.TwoHandedDamage = TwoHandedDamage;
 		item.BonusAttribute = BonusAttribute;
 		item.Skill = Skill;
+		item.CriticMultiplier = CriticMultiplier;
+		item.Critic = Critic;
 		item.InitiativePenalty = InitiativePenalty;
 		return base.DuplicateTo(item);
 	}

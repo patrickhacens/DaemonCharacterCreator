@@ -405,3 +405,5 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
 temp
 /CharacterManager/Properties/ServiceDependencies/deamonce - Web Deploy/profile.arm.json
+
+.env

@@ -26,6 +26,7 @@ public class DataService
 			HeaderValidated = null,
 			MissingFieldFound = null,
 			AllowComments = true,
+			Encoding = Encoding.UTF8,
 		};
 	}
 
@@ -61,7 +62,7 @@ public class DataService
 	public async Task<IEnumerable<Skill>> GetAllSkills(CancellationToken cancellation = default)
 	{
 		var results = await Task.WhenAll<Skill[]>([GetSkills(cancellation), GetWeaponSkills(cancellation), GetCombatSkills(cancellation)]);
-		return results.SelectMany(d=>d).ToArray();
+		return results.SelectMany(d => d).ToArray();
 	}
 
 	public Task<Armor[]> GetArmors(CancellationToken cancellation = default)
@@ -70,4 +71,6 @@ public class DataService
 	public Task<Weapon[]> GetWeapons(CancellationToken cancellation = default)
 		=> GetData<Weapon>("Weapons", cancellation);
 
+	public Task<Advantage[]> GetAdvantages(CancellationToken cancellation = default)
+		=> GetData<Advantage>("Advantages", cancellation);
 }

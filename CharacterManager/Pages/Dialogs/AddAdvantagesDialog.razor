@@ -1,4 +1,5 @@
 ﻿@using Daemon.Data
+@inject DataService dataService
 <MudDialog>
 	<TitleContent>
 		<MudStack Row="true" AlignItems="AlignItems.Center">
@@ -66,7 +67,7 @@
 	public MudDialogInstance Instance { get; set; } = null!;
 
 	[Parameter]
-	public IEnumerable<Advantage> DataSource { get; set; } = DaemonDb.Advantages.AsReadOnly();
+	public IEnumerable<Advantage> DataSource { get; set; } = Enumerable.Empty<Advantage>();
 
 	IEnumerable<Advantage> Filtered = Enumerable.Empty<Advantage>();
 	IEnumerable<Advantage> Selected = Enumerable.Empty<Advantage>();
@@ -75,8 +76,9 @@
 
 	bool? filterPositiveNegative;
 
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
+		DataSource = await dataService.GetAdvantages();
 		FilterAdvantages();
 	}
 

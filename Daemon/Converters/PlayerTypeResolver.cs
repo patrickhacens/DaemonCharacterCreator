@@ -39,7 +39,7 @@ public class PlayerTypeResolver : DefaultJsonTypeInfoResolver
 				{
 					new JsonDerivedType(typeof(Modifier<StatusType>), nameof(StatusType)),
 					new JsonDerivedType(typeof(Modifier<AttributeType>), nameof(AttributeType)),
-					new JsonDerivedType(typeof(Modifier<Skill>), nameof(Skill)),
+					new JsonDerivedType(typeof(Modifier<PlayerSkill>), nameof(PlayerSkill)),
 				}
 			};
 		}

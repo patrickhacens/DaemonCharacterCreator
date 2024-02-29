@@ -23,18 +23,18 @@ public class Player
 		Status = new(this)
 		{
 			new Status(StatusType.Level, 1),
-			new Status(StatusType.IP, p => GetModifiersFor(StatusType.IP)),
+			new Status(StatusType.IP, p => 0),
 			new Status(StatusType.Magic, 0),
 			new Status(StatusType.XP, 0),
 			new Status(StatusType.HP, 0),
-			new Status(StatusType.MaxHP, p => (int)Math.Ceiling(p[AttributeType.Strength].Total + p[AttributeType.Constitution].Total / 2d) + p[StatusType.Level].Value + GetModifiersFor(StatusType.HP)),
+			new Status(StatusType.MaxHP, p => (int)Math.Ceiling(p[AttributeType.Strength].Total + p[AttributeType.Constitution].Total / 2d) + p[StatusType.Level].Value),
 			new Status(StatusType.Focus, 0),
 			new Status(StatusType.Inspiration, 0),
 			new Status(StatusType.Faith, 0),
-			new Status(StatusType.Initiative, p => p[AttributeType.Agility].Total + GetModifiersFor(StatusType.Initiative)),
-			new Status(StatusType.Movement, p => p[AttributeType.Agility].Total + GetModifiersFor(StatusType.Movement)),
-			new Status(StatusType.Run, p => p[AttributeType.Constitution].Total * 3 +  GetModifiersFor(StatusType.Run)),
-			new Status(StatusType.Action, p => (int)Math.Ceiling(p[AttributeType.Agility].Total / 20d) + GetModifiersFor(StatusType.Action)),
+			new Status(StatusType.Initiative, p => p[AttributeType.Agility].Total),
+			new Status(StatusType.Movement, p => p[AttributeType.Agility].Total),
+			new Status(StatusType.Run, p => p[AttributeType.Constitution].Total * 3),
+			new Status(StatusType.Action, p => (int)Math.Ceiling(p[AttributeType.Agility].Total / 20d)),
 			new Status(StatusType.DmgBonus, p => p[AttributeType.Strength].Total switch
 			{
 				1 or 2 => -3,
@@ -42,7 +42,7 @@ public class Player
 				4 or 6 or 7 or 8 => -1,
 				9 or 10 or 11 or 12 => 0,
 				_ => (int)Math.Floor((p[AttributeType.Strength].Total - 13) / 2d)
-			} + GetModifiersFor(StatusType.DmgBonus))
+			})
 		};
 
 		Skills = new(this);
@@ -109,11 +109,11 @@ public class Player
 
 	public IEnumerable<PlayerAction> GetActions()
 	{
+		yield return new("Communicate");
+		yield return new("Interact with an object", "Some objects may take more actions");
+		yield return new("Use a skill", "Some skill might take more actions");
 		yield return new($"Walk", $"{this[StatusType.Movement].Value} meters");
 		yield return new($"Run", $"{this[StatusType.Run].Value} meters and give up dodge");
-		yield return new("Interact with an object", "Some objects may take more actions");
-		yield return new("Communicate");
-		yield return new("Use a skill", "Some skill might take more actions");
 		var taijutsu = GetSkill<WeaponSkill>("Taijutsu", AttributeType.Dexterity);
 		var bonus = this[StatusType.DmgBonus].Value;
 		yield return new($"Fight barehand", $"{taijutsu.Total} / {taijutsu.DefenseTotal} 1d3+{bonus}");
@@ -126,7 +126,8 @@ public class Player
 
 			if (!String.IsNullOrEmpty(weapon.TwoHandedDamage))
 				str+= $"{Environment.NewLine}Two-handed {weapon.TwoHandedDamage}+{bonus}";
-			yield return new($"{weapon.Name} {skill.Total} / {skill.DefenseTotal}:", str);
+
+			yield return new($"{weapon.Name} {weapon.Critic}*{weapon.CriticMultiplier}  {skill.Total} / {skill.DefenseTotal}:", str);
 		}
 	}
 
