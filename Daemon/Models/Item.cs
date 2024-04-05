@@ -13,7 +13,9 @@ public class Item
 
 	public double Weight { get; set; }
 
-	public virtual IEnumerable<IModifier> GetModifiers() => Enumerable.Empty<IModifier>();
+    public double Cost { get; set; }
+
+    public virtual IEnumerable<IModifier> GetModifiers() => [];
 
 	public virtual Item Duplicate() => DuplicateTo(new Item());
 
@@ -52,10 +54,6 @@ public class Weapon : Equipment
 
 	public AttributeType? BonusAttribute { get; set; }
 
-    public int Critic { get; set; }
-
-    public int CriticMultiplier { get; set; }
-
     public string? Skill { get; set; }
 
 	public int InitiativePenalty { get; set; }
@@ -64,7 +62,7 @@ public class Weapon : Equipment
 
     public override IEnumerable<IModifier> GetModifiers() => Equipped ?
 		[new Modifier<StatusType>(StatusType.Initiative, -InitiativePenalty) { Origin = $"Weapon: {Name}" }] :
-		Enumerable.Empty<IModifier>();
+		[];
 
 	public override Item Duplicate() => DuplicateTo(new Weapon());
 
@@ -75,8 +73,6 @@ public class Weapon : Equipment
 		item.TwoHandedDamage = TwoHandedDamage;
 		item.BonusAttribute = BonusAttribute;
 		item.Skill = Skill;
-		item.CriticMultiplier = CriticMultiplier;
-		item.Critic = Critic;
 		item.InitiativePenalty = InitiativePenalty;
 		return base.DuplicateTo(item);
 	}
@@ -99,7 +95,7 @@ public class Armor : Equipment
 		new Modifier<AttributeType>(AttributeType.Dexterity, -DexPenalty) { Origin = $"Armor: {Name}" },
 		new Modifier<AttributeType>(AttributeType.Agility, -AgiPenalty) { Origin = $"Armor: {Name}" },
 		new Modifier<StatusType>(StatusType.IP, IP) { Origin = $"Armor: {Name}" }
-	] : Enumerable.Empty<IModifier>();
+	] : [];
 
 	public override Item Duplicate() => DuplicateTo(new Armor());
 

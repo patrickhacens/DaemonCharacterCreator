@@ -5,7 +5,7 @@
 
 		<MudItem xs="12">
 			<MudTextField @bind-Value="Armor.Name"
-						  Label="Armor" />
+						  Label="Name" />
 		</MudItem>
 
 		<MudItem xs="12">
@@ -40,6 +40,13 @@
 							 Label="AGI Penalty"
 							 Min="0"
 							 Step="1" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Armor.Cost"
+							 Label="Cost"
+							 Min="0"
+							 Step="0.01" />
 		</MudItem>
 	</MudForm>
 </MudGrid>

@@ -4,17 +4,15 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Daemon.Models;
 
-public class Status: INotifyPropertyChanged
+public class Status
 {
-    private Player player;
-    private readonly Func<Player, int> calculationExpression;
+    private Player player = null!;
+    private readonly Func<Player, int>? calculationExpression;
     private int initialValue;
 
-	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public Status()
     {
-
     }
 
     public Status(StatusType type, int initialValue)
@@ -33,7 +31,7 @@ public class Status: INotifyPropertyChanged
 
     public int Value
     {
-        get => (IsReadOnly() ? (calculationExpression(player) + Modifiers) : initialValue);
+        get => (IsReadOnly() ? (calculationExpression!.Invoke(player) + Modifiers) : initialValue);
         set
         {
             initialValue = value;
@@ -51,7 +49,7 @@ public class Status: INotifyPropertyChanged
 
     public class PlayerStatusCollection(Player player) : ICollection<Status>
     {
-        List<Status> innerData = [];
+        readonly List<Status> innerData = [];
 
         public Status this[int index]
         {

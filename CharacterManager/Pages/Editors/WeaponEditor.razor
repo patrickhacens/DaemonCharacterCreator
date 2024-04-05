@@ -5,7 +5,7 @@
 
 		<MudItem xs="12">
 			<MudTextField @bind-Value="Weapon.Name"
-						  Label="Armor" />
+						  Label="Name" />
 		</MudItem>
 
 		<MudItem xs="12">
@@ -23,7 +23,12 @@
 
 		<MudItem xs="12">
 			<MudTextField @bind-Value="Weapon.Damage"
-						  Label="Damage" />
+						  Label="One handed damage" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudTextField @bind-Value="Weapon.TwoHandedDamage"
+						  Label="Two handed damage" />
 		</MudItem>
 
 		<MudItem xs="12">
@@ -51,6 +56,20 @@
 							 Label="Initiative Penalty"
 							 Min="0"
 							 Step="1" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Weapon.Range"
+							 Label="Range"
+							 Min="0"
+							 Step="1" />
+		</MudItem>
+
+		<MudItem xs="12">
+			<MudNumericField @bind-Value="Weapon.Cost"
+							 Label="Cost"
+							 Min="0"
+							 Step="0.01" />
 		</MudItem>
 	</MudForm>
 </MudGrid>

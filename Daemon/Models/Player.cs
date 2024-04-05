@@ -90,10 +90,10 @@ public class Player
 
 	public PlayerSkill.PlayerSkillCollection Skills { get; }
 
-	IEnumerable<IModifier> _modifiers = Enumerable.Empty<IModifier>();
+	IEnumerable<IModifier> _modifiers = [];
 	public IEnumerable<IModifier> Modifiers => _modifiers;
 
-	IEnumerable<IModifier> _calculatedModifiers = Enumerable.Empty<IModifier>();
+	IEnumerable<IModifier> _calculatedModifiers = [];
 	public IEnumerable<IModifier> CalculatedModifiers => _calculatedModifiers;
 
 	public ObservableCollection<IModifier> CustomModifiers { get; }
@@ -127,7 +127,7 @@ public class Player
 			if (!String.IsNullOrEmpty(weapon.TwoHandedDamage))
 				str+= $"{Environment.NewLine}Two-handed {weapon.TwoHandedDamage}+{bonus}";
 
-			yield return new($"{weapon.Name} {weapon.Critic}*{weapon.CriticMultiplier}  {skill.Total} / {skill.DefenseTotal}:", str);
+			yield return new($"{weapon.Name} {skill.Total} / {skill.DefenseTotal}:", str);
 		}
 	}
 

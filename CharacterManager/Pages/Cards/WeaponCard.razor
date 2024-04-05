@@ -7,6 +7,8 @@
 			<MudItem xs="12">
 				<MudText Typo="Typo.body2">@Weapon.Description</MudText>
 			</MudItem>
+
+			@* header line *@
 			<MudItem xs="4">
 				<MudText Typo="Typo.body2"><b>Damage</b></MudText>
 			</MudItem>
@@ -16,9 +18,8 @@
 			<MudItem xs="4">
 				<MudText Typo="Typo.body2"><b>Skill</b></MudText>
 			</MudItem>
-			<MudItem xs="4">
-				<MudText Typo="Typo.body2"><b>INI Penalty</b></MudText>
-			</MudItem>
+
+			@* value line *@
 			<MudItem xs="4">
 				<MudText Typo="Typo.body2">@Weapon.Damage</MudText>
 			</MudItem>
@@ -28,18 +29,34 @@
 			<MudItem xs="4">
 				<MudText Typo="Typo.body2">@Weapon.Skill</MudText>
 			</MudItem>
+
+			@* header line *@
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2"><b>INI Penalty</b></MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2"><b>Weight</b></MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.body2"><b>Cost</b></MudText>
+			</MudItem>
+
+			@* value line *@
 			<MudItem xs="4">
 				<MudText Typo="Typo.body2">@Weapon.InitiativePenalty</MudText>
 			</MudItem>
-			<MudItem xs="6">
+			<MudItem xs="4">
+				<MudText Typo="Typo.caption">@Weapon.Weight.ToString("N2") kg</MudText>
+			</MudItem>
+			<MudItem xs="4">
+				<MudText Typo="Typo.caption">@Weapon.Cost.ToString("N2")</MudText>
+			</MudItem>
+			@* <MudItem xs="4">
 				@if (Weapon.BonusAttribute.HasValue)
 				{
 					<MudChip Size="Size.Small">@Weapon.BonusAttribute.Value.ToString().ToUpper()[..3]</MudChip>
 				}
-			</MudItem>
-			<MudItem xs="6">
-				<MudText Typo="Typo.caption">@Weapon.Weight.ToString("N2") kg</MudText>
-			</MudItem>
+			</MudItem> *@
 		</MudGrid>
 	</MudCardContent>
 	<MudCardActions>

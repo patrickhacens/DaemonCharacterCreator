@@ -59,11 +59,9 @@
         Nav.NavigateTo($"/characters/{Name}");
     }
 
-    bool importing = false;
     async Task Import(IReadOnlyList<IBrowserFile> files)
     {
         List<Player> players = new();
-        importing = true;
         try
         {
 
@@ -96,7 +94,6 @@
         }
         finally
         {
-            importing = false;
         }
     }
 }

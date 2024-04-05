@@ -50,7 +50,7 @@
 				<MudItem xs="4">
 					<MudSelectExtended T="JsonSkill"
 									   SearchBox="true"
-									   SearchFunc="(skill,searchString) => skill.Name.ToLower().Contains(searchString.ToLower())"
+									   SearchFunc="(skill,searchString) => skill.Name!.ToLower().Contains(searchString.ToLower())"
 									   ToStringFunc="e => e.Name"
 									   ItemCollection="availableSkills"
 									   MultiSelection="true"
@@ -107,7 +107,7 @@
 										@foreach (var skill in showSkills)
 										{
 											<MudItem>
-												<SkillSubComponent Skill="selectedItem.Character.GetSkill<PlayerSkill>(skill.Name, skill.Attribute)" />
+												<SkillSubComponent Skill="selectedItem.Character.GetSkill<PlayerSkill>(skill.Name!, skill.Attribute)" />
 											</MudItem>
 										}
 										<MudItem xs="12"></MudItem>
@@ -136,7 +136,6 @@
 												<MudTooltip>
 													<TooltipContent>
 														<MudStack Spacing="0">
-															<MudText>@weapon.Critic * @weapon.CriticMultiplier</MudText>
 															@if (!String.IsNullOrWhiteSpace(weapon.Damage))
 															{
 																<MudText>1H: @weapon.Damage + @selectedItem.Character[StatusType.DmgBonus].Value</MudText>
